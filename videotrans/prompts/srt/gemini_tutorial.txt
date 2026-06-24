@@ -26,6 +26,61 @@ This script is for oral performance. Use the everyday, colloquial register of {l
 - Match the tone of the original (casual/formal), but always prioritize natural, spoken flow over a literal translation.
 - Use contractions, informal sentence endings, and typical conversational fillers that fit {lang} (e.g., "gonna", "yeah", appropriate particles in Asian languages).
 
+## 3b. VIETNAMESE-SPECIFIC RULES (apply ONLY when target language is Vietnamese)
+Vietnamese spoken language differs significantly from written Vietnamese. You MUST apply these rules to sound like a real Vietnamese speaker, not a machine.
+
+### Natural Sentence Flow (MOST IMPORTANT)
+- Vietnamese speech flows with connectors. Use them naturally:
+  - "sau khi... thì..." (after... then...)
+  - "dù... nhưng..." (even though... but...)
+  - "nếu... thì..." (if... then...)
+  - "vì vậy...", "cho nên...", "thế nên..." (therefore)
+  - "tức là...", "nghĩa là..." (meaning...)
+- Each block should feel like a complete thought. End with natural periods, not abrupt cuts.
+- The listener should feel like a teacher is explaining step-by-step, not reading bullet points.
+
+### Tone & Register
+- Use everyday spoken Northern Vietnamese (khẩu ngữ miền Bắc), friendly tutorial style.
+- Address the viewer naturally: "các bạn", "mọi người", "anh em".
+- Sentence endings: "nhé", "nhỉ", "đấy", "rồi", "thôi", "nha".
+- Avoid: "quý vị", "chúng tôi", "xin vui lòng", robotic literal translations.
+
+### Tech/Repair Vocabulary (CRITICAL for technical videos)
+- **NEVER translate these terms** — keep them as-is:
+  - "UFS" (NOT "ổ cứng"), "CPU", "IC", "mainboard" / "main", "IMEI", "baseband", "dump", "ROM", "XOM", "recovery", "format", "hard reset", "FFP".
+- Verbs used naturally in Vietnamese tech speech:
+  - "reball/rework CPU" → "làm lại CPU" / "xử lý lại CPU" (NOT "làm chân CPU")
+  - "reball UFS" → "làm lại UFS" / "xử lý lại UFS"
+  - "short" / "shorted" → "bị chạm" / "chạm mass"
+  - "dead" / "no power" → "chết nguồn" / "không lên nguồn"
+  - "FRP/FFP unlock" → "xóa FFP" / "phá khóa FRP"
+  - "solder jumper" → "câu dây"
+  - "write dump" → "nạp dump" / "ghi dump"
+  - "flash ROM" → "nạp ROM"
+  - "backup" → "sao lưu" (not "backup dữ liệu")
+  - "logical units" → "đơn vị luận lý" / "logical unit" (can keep English)
+  - "EMMC line" → "đường EMMC" (not "đường EI")
+  - "lock" → "lock" / "khóa" (NOT "lóc")
+
+### Examples — BAD (robotic) vs GOOD (natural spoken)
+BAD: "Để phá khóa tài khoản Google, phải tháo ổ cứng."
+GOOD: "Để xóa FFP, cần phải tháo UFS ra."
+
+BAD: "Tháo xong, máy chết. Làm chân CPU, làm chân ổ cứng rồi, vẫn y nguyên."
+GOOD: "Tháo xong thì máy chết nguồn. Làm lại CPU rồi, làm lại UFS rồi, nhưng tình trạng vẫn y như cũ."
+
+BAD: "Giờ kết nối, kiểm tra lỗi gì."
+GOOD: "Bây giờ mình kết nối vào, kiểm tra xem lỗi gì."
+
+BAD: "Nếu ổ cứng chết hẳn, không làm gì được."
+GOOD: "Nếu UFS đã chết hoàn toàn thì không thể làm gì được nữa."
+
+BAD: "Vậy làm chân CPU lại. Gắn IC vào."
+GOOD: "Vậy thì phải làm lại CPU. Rồi gắn IC vào."
+
+BAD: "Các bạn thấy, máy đã xong rồi."
+GOOD: "Các bạn thấy đấy, máy đã xong rồi nhé."
+
 # ABSOLUTE FORMATTING RED LINES (SYSTEM-CRITICAL)
 
 1. **STRICT 1-TO-1 BLOCK COUNT & COMPLIANCE**
@@ -63,16 +118,32 @@ Creo que voy a...
 00:00:02,600 --> 00:00:04,000
 ...ir al hospital ya.
 
-*CORRECT (each block is a natural standalone phrase in {lang}):*
-<TRANSLATE_TEXT>
+*CORRECT (each block is a natural standalone phrase):*
 1
 00:00:01,000 --> 00:00:02,500
-I think I'm going.
+Creo que voy.
 
 2
 00:00:02,600 --> 00:00:04,000
-To the hospital right now.
-</TRANSLATE_TEXT>
+Al hospital, ya mismo.
+
+*WRONG Vietnamese (ellipsis everywhere — sounds broken):*
+1
+00:00:01,000 --> 00:00:02,500
+Cái máy này bị lỗi...
+
+2
+00:00:02,600 --> 00:00:04,000
+...cứ cắm sạc là tự lên.
+
+*CORRECT Vietnamese (each block a natural spoken phrase):*
+1
+00:00:01,000 --> 00:00:02,500
+Cái máy này bị lỗi lạ.
+
+2
+00:00:02,600 --> 00:00:04,000
+Cứ cắm sạc là tự lên nguồn.
 
 ---
 
@@ -80,7 +151,8 @@ To the hospital right now.
 
 # ACTUAL TASK
 Translate and adapt ONLY the following SRT batch into {lang}.
-Ensure natural spoken flow in {lang}, strict conciseness for TTS dubbing, and ABSOLUTE 1-to-1 block mapping.
+Ensure natural spoken flow in {lang}, strict conciseness for TTS dubbing, and ABSOLUTE 1-to-1 block mapping – never merge, never shift, and mirror the original fragmentation exactly.
+Output the result inside `<TRANSLATE_TEXT>` tags.
 
 <INPUT>
 {batch_input}

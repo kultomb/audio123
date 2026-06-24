@@ -672,6 +672,7 @@ class AppParams:
             "gemini_vertex_json": "",
             "gemini_vertex_project": "",
             "gemini_vertex_location": "us-central1",
+            "gemini_prompt_style": "default",
             
             "localllm_api": "",
             "localllm_key": "",

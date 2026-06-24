@@ -29,6 +29,10 @@ def openwin():
         params["gemini_vertex_project"] = winobj.vertex_project.text()
         params["gemini_vertex_location"] = winobj.vertex_location.text()
 
+        # Prompt style
+        style_map = {0: 'default', 1: 'tutorial', 2: 'review', 3: 'dialogue'}
+        params["gemini_prompt_style"] = style_map.get(winobj.prompt_style.currentIndex(), 'default')
+
         ttsmodel = winobj.ttsmodel.currentText()
         params["gemini_ttsmodel"] = ttsmodel
 
@@ -55,6 +59,10 @@ def openwin():
         params["gemini_vertex_json"] = winobj.vertex_json_path.text()
         params["gemini_vertex_project"] = winobj.vertex_project.text()
         params["gemini_vertex_location"] = winobj.vertex_location.text()
+
+        # Prompt style
+        style_map = {0: 'default', 1: 'tutorial', 2: 'review', 3: 'dialogue'}
+        params["gemini_prompt_style"] = style_map.get(winobj.prompt_style.currentIndex(), 'default')
 
         ttsmodel = winobj.ttsmodel.currentText()
         params["gemini_ttsmodel"] = ttsmodel

@@ -176,8 +176,8 @@ def shutdown_system():
 
 
 # 获取 prompt提示词
-def get_prompt(ainame, aisendsrt=True):
-    prompt_file = get_prompt_file(ainame=ainame, aisendsrt=aisendsrt)
+def get_prompt(ainame, aisendsrt=True, style='default'):
+    prompt_file = get_prompt_file(ainame=ainame, aisendsrt=aisendsrt, style=style)
     content = Path(prompt_file).read_text(encoding='utf-8-sig', errors="ignore")
     glossary = ''
     if Path(ROOT_DIR + '/videotrans/glossary.txt').exists():
@@ -204,9 +204,11 @@ def qwenmt_glossary():
 
 # 获取当前需要操作的prompt txt文件
 @lru_cache
-def get_prompt_file(ainame, aisendsrt=True):
+def get_prompt_file(ainame, aisendsrt=True, style='default'):
     prompt_path = f'{ROOT_DIR}/videotrans/'
-    prompt_name = f'{ainame}.txt'
+    # Style suffix: '' for default, '_tutorial', '_review', '_dialogue' for others
+    suffix = '' if style == 'default' else f'_{style}'
+    prompt_name = f'{ainame}{suffix}.txt'
     if aisendsrt:
         prompt_path += 'prompts/srt/'
     else:

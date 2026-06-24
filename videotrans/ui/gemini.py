@@ -124,6 +124,25 @@ class Ui_geminiform(object):
         h2.addWidget(self.label_3)
         h2.addWidget(self.model)
         v1.addLayout(h2)
+
+        # === Prompt Style ===
+        h_style = QtWidgets.QHBoxLayout()
+        self.label_style = QtWidgets.QLabel()
+        self.label_style.setMinimumSize(QtCore.QSize(0, 35))
+        self.label_style.setObjectName("label_style")
+        self.label_style.setText(tr("Prompt Style"))
+        self.prompt_style = QtWidgets.QComboBox()
+        self.prompt_style.setMinimumSize(QtCore.QSize(0, 35))
+        self.prompt_style.setObjectName("prompt_style")
+        self.prompt_style.addItems([
+            tr("Default (General)"),
+            tr("Tutorial / How-to"),
+            tr("Review / Commentary"),
+            tr("Film Dialogue"),
+        ])
+        h_style.addWidget(self.label_style)
+        h_style.addWidget(self.prompt_style)
+        v1.addLayout(h_style)
         
         
         h_token=QtWidgets.QHBoxLayout()
@@ -266,6 +285,11 @@ class Ui_geminiform(object):
         self.vertex_project.setText(str(params.get('gemini_vertex_project', '')))
         self.vertex_location.setText(str(params.get('gemini_vertex_location', 'us-central1')))
         self.toggle_auth_widgets()
+
+        # Prompt style
+        style_map = {'default': 0, 'tutorial': 1, 'review': 2, 'dialogue': 3}
+        style = params.get('gemini_prompt_style', 'default')
+        self.prompt_style.setCurrentIndex(style_map.get(style, 0))
 
     def retranslateUi(self):
         

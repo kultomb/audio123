@@ -21,7 +21,8 @@ class Gemini(BaseTrans):
     def __post_init__(self):
         super().__post_init__()
         self.model_name = params.get("gemini_model",'gemini-2.5-flash')
-        self.prompt = tools.get_prompt(ainame='gemini',aisendsrt=self.aisendsrt).replace('{lang}', self.target_language_name)
+        self.prompt_style = params.get("gemini_prompt_style", 'default')
+        self.prompt = tools.get_prompt(ainame='gemini',aisendsrt=self.aisendsrt, style=self.prompt_style).replace('{lang}', self.target_language_name)
         self.api_keys = params.get('gemini_key', '').strip().split(',')
         # Vertex AI config
         self.auth_type = params.get('gemini_auth_type', 'api_key')

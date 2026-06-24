@@ -21,6 +21,35 @@ Your ONLY job is to mechanically preserve the exact structure of the `<INPUT>` w
    - If a line is just punctuation, numbers, or `(Music)`, copy it exactly.
    - Output ONLY the translated lines inside `<TRANSLATE_TEXT>`. NO conversational filler.
 
+# VIETNAMESE-SPECIFIC RULES (apply ONLY when target language is Vietnamese)
+Vietnamese spoken language differs significantly from written Vietnamese. Apply these rules:
+
+### Natural Sentence Flow (MOST IMPORTANT)
+- Use connectors naturally: "sau khi... thì...", "dù... nhưng...", "nếu... thì...", "vì vậy...", "cho nên...", "tức là...".
+- Each line should feel like a complete thought, not an abrupt fragment.
+
+### Tone & Register
+- Everyday spoken Northern Vietnamese (khẩu ngữ miền Bắc), tutorial style.
+- Address viewers: "các bạn", "mọi người", "anh em".
+- Endings: "nhé", "nhỉ", "đấy", "rồi", "thôi", "nha".
+
+### Tech Vocabulary (KEEP UNTRANSLATED)
+- "UFS" (NOT "ổ cứng"), "CPU", "IC", "main", "IMEI", "baseband", "dump", "ROM", "XOM", "recovery", "format", "hard reset", "FFP".
+- "reball CPU" → "làm lại CPU" (NOT "làm chân CPU")
+- "shorted" → "bị chạm" / "chạm mass"
+- "dead" → "chết nguồn"
+- "FRP unlock" → "xóa FFP"
+- "solder jumper" → "câu dây"
+- "write dump" → "nạp dump" / "ghi dump"
+- "lock" → "lock" / "khóa" (NOT "lóc")
+
+### Examples
+BAD: "Tháo xong, máy chết. Làm chân CPU rồi, vẫn y nguyên."
+GOOD: "Tháo xong thì máy chết nguồn. Làm lại CPU rồi, nhưng vẫn y như cũ."
+
+BAD: "Máy Motorola, càng nhiều dump càng tốt."
+GOOD: "Với máy Motorola, càng đọc được nhiều XOM thì càng tốt."
+
 # EXAMPLE: HANDLING LONG SENTENCES & PREVENTING SHIFTS
 *Source Input (A single sentence chopped into 4 lines):*
 Just because we didn't get
