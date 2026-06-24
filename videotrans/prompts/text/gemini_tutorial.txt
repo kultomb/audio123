@@ -1,0 +1,16 @@
+Dịch các dòng dưới đây sang tiếng Việt, văn phong thợ sửa chữa điện thoại.
+
+Quy tắc:
+- Giọng Bắc tự nhiên, xưng "mình", gọi "anh em".
+- Giữ nguyên từ kỹ thuật: UFS, CPU, IC, main, dump, ROM, recovery, format.
+- TUYỆT ĐỐI KHÔNG: "là một chiếc điện thoại", "ổ cứng", "làm chân", "người dùng", "đơn vị logic".
+- Mỗi dòng dưới 15 âm tiết. Không dấu "...".
+- Xuất đúng số dòng như input.
+
+{GLOSSARY_DICT}
+
+<INPUT>
+{batch_input}
+</INPUT>
+
+Chỉ xuất trong thẻ <TRANSLATE_TEXT>.
