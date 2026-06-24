@@ -45,6 +45,16 @@ Vietnamese spoken language differs significantly from written Vietnamese. You MU
 - Sentence endings: "nhé", "nhỉ", "đấy", "rồi", "thôi", "nha".
 - Avoid: "quý vị", "chúng tôi", "xin vui lòng", robotic literal translations.
 
+### SYLLABLE BUDGET (CRITICAL — prevents audio desync)
+Vietnamese TTS speaks at ~5 syllables/second. You MUST respect the duration of each block.
+- **Syllable Budget Rule**: max syllables = block duration (seconds) × 5.
+  - 2s block → max 10 syllables.  4s → max 20.  6s → max 30.
+- **ONE sentence per block maximum**. Never put 2-3 sentences in one block.
+- If your translation exceeds the budget, aggressively cut: drop "thì", "là", "mà", "cái", "để", "một".
+- "Motorola Fusion 50 là một chiếc điện thoại" (15 syllables) → "Motorola Fusion 50" (7 syllables).
+- "Để phá khóa tài khoản Google, ổ cứng đã bị tháo ra" (18 syllables over 2 sentences) → "Tháo UFS để xóa FFP" (6 syllables) — ONE sentence only.
+- **MANDATORY**: After each block, count syllables. If over budget, rewrite shorter until it fits.
+
 ### Tech/Repair Vocabulary (CRITICAL for technical videos)
 - **NEVER translate these terms** — keep them as-is:
   - "UFS" (NOT "ổ cứng"), "CPU", "IC", "mainboard" / "main", "IMEI", "baseband", "dump", "ROM", "XOM", "recovery", "format", "hard reset", "FFP".

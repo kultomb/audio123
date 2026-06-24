@@ -33,6 +33,13 @@ Vietnamese spoken language differs significantly from written Vietnamese. Apply 
 - Address viewers: "các bạn", "mọi người", "anh em".
 - Endings: "nhé", "nhỉ", "đấy", "rồi", "thôi", "nha".
 
+### SYLLABLE BUDGET (CRITICAL)
+Vietnamese TTS speaks ~5 syllables/second. Each output line MUST be short enough for TTS.
+- Max syllables per line ≈ 15-20. If longer, cut aggressively.
+- Drop "thì", "là", "mà", "cái", "để", "một" when unnecessary.
+- "Motorola Fusion 50 là một chiếc điện thoại" → "Motorola Fusion 50".
+- ONE idea per line maximum.
+
 ### Tech Vocabulary (KEEP UNTRANSLATED)
 - "UFS" (NOT "ổ cứng"), "CPU", "IC", "main", "IMEI", "baseband", "dump", "ROM", "XOM", "recovery", "format", "hard reset", "FFP".
 - "reball CPU" → "làm lại CPU" (NOT "làm chân CPU")
