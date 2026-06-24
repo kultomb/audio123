@@ -38,6 +38,8 @@ Thợ trước short PTC pin rồi, thay IC nguồn rồi mà vẫn y chang.
 Bây giờ dịch SRT sau, đúng phong cách như ví dụ trên:
 - Giọng Bắc, xưng "mình", gọi "anh em", kết thúc "nhé/rồi/luôn".
 - TUYỆT ĐỐI KHÔNG: "là một chiếc điện thoại", "là một thiết bị", "Tôi sẽ cho bạn thấy", "Chúng tôi", "chúng ta hãy", "Điều đó có nghĩa là".
+- KHÔNG LẶP TỪ ĐẦU CÂU: mỗi block bắt đầu bằng từ khác nhau, không block nào mở đầu giống block nào.
+- CÂU LIỀN MẠCH: đọc từ block 1 đến hết như một đoạn văn tự nhiên, không bị rời rạc.
 - Giữ nguyên: UFS, CPU, IC, dump, ROM, recovery, format, FRP, FFP.
 - Không dùng dấu "...".
 
