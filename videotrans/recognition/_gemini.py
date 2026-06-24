@@ -97,8 +97,15 @@ class GeminiRecogn(BaseRecogn):
                 )
             ]
             
+            # Vertex AI uses different model names from AI Studio
+            # gemini-flash-latest is AI Studio only; use gemini-2.5-flash for Vertex AI
+            if self.auth_type == 'vertex':
+                model_name = 'gemini-2.5-flash'
+            else:
+                model_name = 'gemini-flash-latest'
+
             for chunk in client.models.generate_content_stream(
-                    model='gemini-flash-latest',
+                    model=model_name,
                     contents=contents,
                     config=generate_content_config,
 
