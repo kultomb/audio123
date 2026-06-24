@@ -14,11 +14,12 @@ The translated text will be used for TTS voiceover. If the translation is too lo
   - **Abugida & Segmental scripts** (Thai, Vietnamese, Hindi, Bengali, Khmer): Avoid long compound words. For scripts without explicit word boundaries (e.g., Thai, Khmer), use very direct phrasing to prevent TTS engines from misinterpreting word breaks and dragging out the audio.
   - **RTL scripts** (Arabic, Hebrew, Persian, Urdu): Ensure high semantic density. Keep punctuation in correct logical positions so that bidirectional rendering does not corrupt timestamps or line orders.
 
-## 2. ABSOLUTE 1-TO-1 BLOCK MAPPING & "ZERO-SHIFT" RULE
-The source subtitles often split a single sentence across multiple blocks due to speech pauses. You **MUST NOT** merge them, and you **MUST NOT** shift semantic elements between blocks to satisfy target grammar.
-- **Local Semantic Equivalence**: Translate only the text physically present inside each individual block. If the source block contains an incomplete fragment, its {lang} translation must also remain an incomplete fragment.
-- **No Word Shifting**: Do not move nouns, verbs, or key modifiers from Block 1 to Block 2 (or vice versa), even if the target language's natural word order (e.g., SVO vs. SOV) would normally require it. Each block must function as an isolated audio clip.
-- **Ellipsis Bridging (`...`)**: If a block ends mid-thought or mid-clause, end the translation of that block with an ellipsis (`...`), and/or start the next block with an ellipsis (`...`). This maintains grammatical suspense and signals the TTS engine to keep a continuation tone rather than a falling end-of-sentence intonation.
+## 2. ABSOLUTE 1-TO-1 BLOCK MAPPING & SELF-CONTAINED BLOCKS
+The source subtitles split sentences across blocks due to speech pauses. Each block will be voiced separately by TTS. Your translation MUST make every block sound natural when spoken ALONE.
+- **Self-Contained Blocks (CRITICAL)**: Each block MUST be a complete, natural-sounding phrase on its own. The TTS engine voices each block independently with a natural pause in between — like normal speech. Do NOT artificially connect blocks.
+- **NO ELLIPSIS BRIDGING**: Do NOT use `...` at the start or end of blocks. It makes TTS read "dot dot dot" aloud, ruining the flow. Instead, end each block with a period (`.`), comma (`,`), or natural sentence-ending particle.
+- **Natural Continuation**: If two blocks continue the same thought, just let them be separate sentences. The listener will hear them naturally — just like how people speak in phrases with micro-pauses.
+- **No Word Shifting**: Do not move nouns, verbs, or key modifiers from Block 1 to Block 2 (or vice versa). Each block translates only its own content.
 
 ## 3. SPOKEN REGISTER & LOCALIZATION
 This script is for oral performance. Use the everyday, colloquial register of {lang} as heard in films and conversational media, not textbook or written language.
@@ -82,9 +83,9 @@ GOOD (spoken): "Thấy hay thì comment bên dưới nhé."
 4. **SILENT EXECUTION**
    - Do not output any conversational filler, explanations, or introductory text inside or outside the tags.
 
-# EXAMPLE OF STRICT FRAGMENT MAPPING & CONDENSATION
+# EXAMPLE OF NATURAL SELF-CONTAINED BLOCKS
 
-*Source Input (sentence artificially split, contains a typo):*
+*Source Input (sentence split across blocks):*
 1
 00:00:01,000 --> 00:00:02,500
 I think I'm gona
@@ -93,16 +94,7 @@ I think I'm gona
 00:00:02,600 --> 00:00:04,000
 go to the hospital right now.
 
-*WRONG OUTPUT (merged, too long, semantic completion):*
-1
-00:00:01,000 --> 00:00:02,500
-[Complete, merged translation of "I think I'm gonna go to the hospital right now" inside Block 1]
-2
-00:00:02,600 --> 00:00:04,000
-[Empty, deleted, or repeated]
-
-*CORRECT OUTPUT (Target: Spanish – concise, zero-shifted, ellipsis bridged, spoken style):*
-<TRANSLATE_TEXT>
+*WRONG (ellipsis makes TTS read "dot dot dot" aloud — terrible!):*
 1
 00:00:01,000 --> 00:00:02,500
 Creo que voy a...
@@ -110,9 +102,33 @@ Creo que voy a...
 2
 00:00:02,600 --> 00:00:04,000
 ...ir al hospital ya.
-</TRANSLATE_TEXT>
 
-*(Explanation: The break happens exactly where the original did — after "gona". Block 1 ends with an ellipsis and Block 2 starts with one. No semantic information like "ir al hospital" is moved into Block 1. "Right now" is condensed to "ya" to fit the 1.4-second limit of Block 2.)*
+*CORRECT (each block is a natural standalone phrase):*
+1
+00:00:01,000 --> 00:00:02,500
+Creo que voy.
+
+2
+00:00:02,600 --> 00:00:04,000
+Al hospital, ya mismo.
+
+*WRONG Vietnamese (ellipsis everywhere — sounds broken):*
+1
+00:00:01,000 --> 00:00:02,500
+Cái máy này bị lỗi...
+
+2
+00:00:02,600 --> 00:00:04,000
+...cứ cắm sạc là tự lên.
+
+*CORRECT Vietnamese (each block a natural spoken phrase):*
+1
+00:00:01,000 --> 00:00:02,500
+Cái máy này bị lỗi lạ.
+
+2
+00:00:02,600 --> 00:00:04,000
+Cứ cắm sạc là tự lên nguồn.
 
 ---
 
