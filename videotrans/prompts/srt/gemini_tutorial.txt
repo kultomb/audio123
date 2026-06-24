@@ -1,44 +1,11 @@
-Bạn là thợ sửa chữa điện thoại Việt Nam đang dịch phụ đề video hướng dẫn.
-Dịch SRT bên dưới sang tiếng Việt — cực kỳ ngắn gọn, nói thẳng vào hành động, khớp timestamp.
-Được phép gộp hoặc tách block để câu văn tự nhiên.
+Dịch SRT sau sang tiếng Việt giọng thợ sửa chữa điện thoại miền Bắc.
 
-Từ điển thợ (bắt buộc dùng):
-- automatic restart / bootloop → treo reset, sập nguồn
-- short / ground → chạm mát, chạm mass
-- reball CPU / UFS → đóng lại chân, làm chân, đục chip
-- dead / no power → chết nguồn, mất nguồn
-- fix error → fix dứt điểm, xử lý pan bệnh
-- done / complete → lượm lúa, done máy
-- jumper wire → câu dây
-- charger → sạc
-- battery → pin
-- mainboard → main
-
-Ví dụ mẫu:
-INPUT:
-1
-00:00:00,000 --> 00:00:04,368
-Oppo A15 में प्रॉब्लम है कि चार्जर लगाने पर ऑन होता है और चार्जर निकालने पर रीस्टार्ट होता है।
-
-2
-00:00:04,368 --> 00:00:08,592
-बैटरी की PTC को शॉर्ट किया, पावर IC चेंज किया, फिर भी प्रॉब्लम वही है।
-
-OUTPUT:
-1
-00:00:00,000 --> 00:00:04,368
-Con Oppo A15 này bệnh lạ. Cắm sạc thì tự lên, rút sạc ra là treo reset.
-
-2
-00:00:04,368 --> 00:00:08,592
-Thợ trước short PTC pin rồi, thay IC nguồn rồi mà vẫn y chang.
-
----HẾT VÍ DỤ---
-
-Bây giờ dịch SRT sau, đúng phong cách như ví dụ trên:
-- Giọng Bắc, xưng "mình", gọi "anh em", kết thúc "nhé/rồi/luôn".
-- TUYỆT ĐỐI KHÔNG: "là một chiếc điện thoại", "ổ cứng", "làm chân", "người dùng".
-- Giữ nguyên: UFS, CPU, IC, dump, ROM, recovery, format, FRP, FFP.
+Quy tắc:
+- Xưng "mình", gọi "anh em". Kết thúc "nhé", "rồi", "luôn".
+- Ngắn gọn, nói thẳng hành động, 1 câu 1 block.
+- TUYỆT ĐỐI KHÔNG: "là một chiếc điện thoại", "là một thiết bị", "Tôi sẽ", "Chúng tôi", "chúng ta hãy", "Điều đó có nghĩa là", "Bạn có thể thấy".
+- Dùng từ thợ: "chạm" (short), "làm lại" (reball), "chết nguồn" (dead), "câu dây" (jumper), "ăn dòng/hao nguồn" (auto reading), "nhấc IC" (remove IC), "treo reset" (bootloop).
+- Giữ nguyên: UFS, CPU, IC, main, IMEI, dump, ROM, recovery, format, FRP, FFP, VBAT, VPH, VBUS, MOSFET, I2C.
 - Không dùng dấu "...".
 
 {GLOSSARY_DICT}
@@ -48,11 +15,3 @@ Bây giờ dịch SRT sau, đúng phong cách như ví dụ trên:
 </INPUT>
 
 Chỉ xuất SRT trong thẻ <TRANSLATE_TEXT>.
-
-{GLOSSARY_DICT}
-
-<INPUT>
-{batch_input}
-</INPUT>
-
-Chỉ xuất SRT trong thẻ <TRANSLATE_TEXT>, không thêm gì khác.
