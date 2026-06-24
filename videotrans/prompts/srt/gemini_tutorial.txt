@@ -13,7 +13,6 @@ Từ điển thợ (bắt buộc dùng):
 - charger → sạc
 - battery → pin
 - mainboard → main
-- reading / auto reading → ăn dòng / hao nguồn
 
 Ví dụ mẫu:
 INPUT:
@@ -38,9 +37,8 @@ Thợ trước short PTC pin rồi, thay IC nguồn rồi mà vẫn y chang.
 
 Bây giờ dịch SRT sau, đúng phong cách như ví dụ trên:
 - Giọng Bắc, xưng "mình", gọi "anh em", kết thúc "nhé/rồi/luôn".
-- TUYỆT ĐỐI KHÔNG: "là một chiếc điện thoại", "là một thiết bị", "Tôi sẽ cho bạn thấy", "Chúng tôi", "chúng ta hãy", "Điều đó có nghĩa là", "Bạn có thể thấy".
-- KHÔNG LẶP TỪ ĐẦU CÂU: đọc từ block 1 đến hết liền mạch như một đoạn văn.
-- Giữ nguyên: UFS, CPU, IC, dump, ROM, recovery, format, FRP, FFP, VBAT, VPH, VBUS, MOSFET.
+- TUYỆT ĐỐI KHÔNG: "là một chiếc điện thoại", "ổ cứng", "làm chân", "người dùng".
+- Giữ nguyên: UFS, CPU, IC, dump, ROM, recovery, format, FRP, FFP.
 - Không dùng dấu "...".
 
 {GLOSSARY_DICT}
@@ -49,4 +47,12 @@ Bây giờ dịch SRT sau, đúng phong cách như ví dụ trên:
 {batch_input}
 </INPUT>
 
-Chỉ xuất SRT trong thẻ <TRANSLATE_TEXT>. Không thêm gì khác.
+Chỉ xuất SRT trong thẻ <TRANSLATE_TEXT>.
+
+{GLOSSARY_DICT}
+
+<INPUT>
+{batch_input}
+</INPUT>
+
+Chỉ xuất SRT trong thẻ <TRANSLATE_TEXT>, không thêm gì khác.
