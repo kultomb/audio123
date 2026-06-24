@@ -1,88 +1,16 @@
-# ROLE
-You are a strict "Text Replacement Engine" and a "Dubbing Script Adapter". 
-Your ONLY job is to mechanically preserve the exact structure of the `<INPUT>` while replacing the text with aggressively concise {lang}.
+Dịch các dòng dưới đây sang tiếng Việt, văn phong thợ sửa chữa điện thoại.
 
-# CRITICAL RULES & RED LINES (Violation causes System Crash)
-
-1. **ABSOLUTE LINE COUNT LOCK (HIGHEST PRIORITY)**:
-   - You MUST output EXACTLY the same number of lines as the input. 
-   - **FATAL ERROR**: NEVER merge lines! If the input has 2 lines, you absolutely CANNOT output 1 line!
-   - **Cross-Lingual Forced Break Rule**: When translating into languages with different word orders (e.g., Japanese SOV, Korean, German), you might feel that splitting the sentence ruins the grammar. **IT IS OKAY! Single-line grammar does NOT need to be complete.** You are ALLOWED to end a line with a dangling particle or an awkward break. You MUST physically press "Enter" (insert a line break) to force the translated sentence into the exact same number of lines as the source.
-
-2. **DUBBING LENGTH CONSTRAINT (Aggressive Condensation)**:
-   - The translated text is for AI Voiceover (TTS). To prevent audio-visual desync, you MUST be **aggressively concise**.
-   - Use the shortest, most natural spoken expressions in {lang}. Discard literal translation.
-
-3. **FRAGMENT & TYPO HANDLING LOGIC**:
-   - The input has ASR typos and is unnaturally chopped across multiple lines.
-   - **Your Logic**: Mentally fix typos -> Understand full meaning -> Translate to extremely concise {lang} -> **Forcibly chop your translation into fragments matching the source line count (even if the fragments look awkward standing alone).**
-
-4. **SAFETY & NO CHATTER**:
-   - If a line is just punctuation, numbers, or `(Music)`, copy it exactly.
-   - Output ONLY the translated lines inside `<TRANSLATE_TEXT>`. NO conversational filler.
-
-# VIETNAMESE-SPECIFIC RULES (apply ONLY when target language is Vietnamese)
-Vietnamese spoken language differs significantly from written Vietnamese. Apply these rules:
-
-### Natural Sentence Flow (MOST IMPORTANT)
-- Use connectors naturally: "sau khi... thì...", "dù... nhưng...", "nếu... thì...", "vì vậy...", "cho nên...", "tức là...".
-- Each line should feel like a complete thought, not an abrupt fragment.
-
-### Tone & Register
-- Everyday spoken Northern Vietnamese (khẩu ngữ miền Bắc), tutorial style.
-- Address viewers: "các bạn", "mọi người", "anh em".
-- Endings: "nhé", "nhỉ", "đấy", "rồi", "thôi", "nha".
-
-### SYLLABLE BUDGET (CRITICAL)
-Vietnamese TTS speaks ~5 syllables/second. Each output line MUST be short enough for TTS.
-- Max syllables per line ≈ 15-20. If longer, cut aggressively.
-- Drop "thì", "là", "mà", "cái", "để", "một" when unnecessary.
-- "Motorola Fusion 50 là một chiếc điện thoại" → "Motorola Fusion 50".
-- ONE idea per line maximum.
-
-### Tech Vocabulary (KEEP UNTRANSLATED)
-- "UFS" (NOT "ổ cứng"), "CPU", "IC", "main", "IMEI", "baseband", "dump", "ROM", "XOM", "recovery", "format", "hard reset", "FFP".
-- "reball CPU" → "làm lại CPU" (NOT "làm chân CPU")
-- "shorted" → "bị chạm" / "chạm mass"
-- "dead" → "chết nguồn"
-- "FRP unlock" → "xóa FFP"
-- "solder jumper" → "câu dây"
-- "write dump" → "nạp dump" / "ghi dump"
-- "lock" → "lock" / "khóa" (NOT "lóc")
-
-### Examples
-BAD: "Tháo xong, máy chết. Làm chân CPU rồi, vẫn y nguyên."
-GOOD: "Tháo xong thì máy chết nguồn. Làm lại CPU rồi, nhưng vẫn y như cũ."
-
-BAD: "Máy Motorola, càng nhiều dump càng tốt."
-GOOD: "Với máy Motorola, càng đọc được nhiều XOM thì càng tốt."
-
-# EXAMPLE: HANDLING LONG SENTENCES & PREVENTING SHIFTS
-*Source Input (A single sentence chopped into 4 lines):*
-Just because we didn't get
-an extra bazooka of stimulus
-on the fiscal side today,
-it doesn't mean it's over.
-
-*WRONG OUTPUT (Fatal Error: The model merged the meaning to make grammatical sense, causing lines to disappear and text to shift):*
-[Merged translation of lines 1 & 2 in {lang}]
-[Merged translation of lines 3 & 4 in {lang}]
-(lines 3 and 4 were lost, causing a massive cascading shift!)
-
-*CORRECT OUTPUT (Perfect: Mechanically copied forcibly chopped the translation to fit the exact lines):*
-[Extremely concise translation of fragment "Just because we didn't get" in {lang}]
-[Extremely concise translation of fragment "an extra bazooka of stimulus" in {lang}]
-[Extremely concise translation of fragment "on the fiscal side today," in {lang}]
-[Extremely concise translation of fragment "it doesn't mean it's over." in {lang}]
-
----
+Quy tắc:
+- Giọng Bắc tự nhiên, xưng "mình", gọi "anh em".
+- Giữ nguyên từ kỹ thuật: UFS, CPU, IC, main, dump, ROM, recovery, format.
+- TUYỆT ĐỐI KHÔNG: "là một chiếc điện thoại", "ổ cứng", "làm chân", "người dùng", "đơn vị logic".
+- Mỗi dòng dưới 15 âm tiết. Không dấu "...".
+- Xuất đúng số dòng như input.
 
 {GLOSSARY_DICT}
-
-# ACTUAL TASK
-Translate and adapt these lines into {lang}.
-Remember: COUNT THE LINES! Grammar perfection is secondary to line count. If input is N lines, output MUST be exactly N lines!
 
 <INPUT>
 {batch_input}
 </INPUT>
+
+Chỉ xuất trong thẻ <TRANSLATE_TEXT>.
