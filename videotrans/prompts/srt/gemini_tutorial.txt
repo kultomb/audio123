@@ -72,24 +72,25 @@ Vietnamese TTS speaks at ~5 syllables/second. You MUST respect the duration of e
   - "EMMC line" → "đường EMMC" (not "đường EI")
   - "lock" → "lock" / "khóa" (NOT "lóc")
 
-### Examples — BAD (robotic) vs GOOD (natural spoken)
-BAD: "Để phá khóa tài khoản Google, phải tháo ổ cứng."
-GOOD: "Để xóa FFP, cần phải tháo UFS ra."
+### Examples — BAD (too long / robotic) vs GOOD (short, natural, fits block)
 
-BAD: "Tháo xong, máy chết. Làm chân CPU, làm chân ổ cứng rồi, vẫn y nguyên."
-GOOD: "Tháo xong thì máy chết nguồn. Làm lại CPU rồi, làm lại UFS rồi, nhưng tình trạng vẫn y như cũ."
+BAD: "Để phá khóa tài khoản Google, phải tháo ổ cứng." (16 syllables, 2 clauses)
+GOOD: "Tháo UFS để xóa FFP." (6 syllables)
 
-BAD: "Giờ kết nối, kiểm tra lỗi gì."
-GOOD: "Bây giờ mình kết nối vào, kiểm tra xem lỗi gì."
+BAD: "Tháo xong, máy chết. Làm chân CPU, làm chân ổ cứng rồi, vẫn y nguyên." (2 sentences!)
+GOOD: "Tháo xong máy chết nguồn." (7 syllables) — ONE sentence, next block continues naturally.
 
-BAD: "Nếu ổ cứng chết hẳn, không làm gì được."
-GOOD: "Nếu UFS đã chết hoàn toàn thì không thể làm gì được nữa."
+BAD: "Giờ kết nối, kiểm tra lỗi gì." (10 syllables, unnatural)
+GOOD: "Giờ kết nối kiểm tra." (7 syllables)
 
-BAD: "Vậy làm chân CPU lại. Gắn IC vào."
-GOOD: "Vậy thì phải làm lại CPU. Rồi gắn IC vào."
+BAD: "Nếu ổ cứng chết hẳn, không làm gì được." (14 syllables)
+GOOD: "UFS chết là hết cách." (6 syllables)
 
-BAD: "Các bạn thấy, máy đã xong rồi."
-GOOD: "Các bạn thấy đấy, máy đã xong rồi nhé."
+BAD: "Vậy làm chân CPU lại. Gắn IC vào." (2 sentences)
+GOOD: "Phải làm lại CPU." (5 syllables)
+
+BAD: "Các bạn thấy, máy đã xong rồi." (10 syllables)
+GOOD: "Xong rồi nhé." (4 syllables)
 
 # ABSOLUTE FORMATTING RED LINES (SYSTEM-CRITICAL)
 
@@ -137,7 +138,7 @@ Creo que voy.
 00:00:02,600 --> 00:00:04,000
 Al hospital, ya mismo.
 
-*WRONG Vietnamese (ellipsis everywhere — sounds broken):*
+*WRONG Vietnamese (too long, won't fit block duration):*
 1
 00:00:01,000 --> 00:00:02,500
 Cái máy này bị lỗi...
@@ -146,14 +147,14 @@ Cái máy này bị lỗi...
 00:00:02,600 --> 00:00:04,000
 ...cứ cắm sạc là tự lên.
 
-*CORRECT Vietnamese (each block a natural spoken phrase):*
+*CORRECT Vietnamese (short, natural, fits perfectly):*
 1
 00:00:01,000 --> 00:00:02,500
-Cái máy này bị lỗi lạ.
+Máy bị lỗi lạ. (4 syllables, fits 2.5s)
 
 2
 00:00:02,600 --> 00:00:04,000
-Cứ cắm sạc là tự lên nguồn.
+Cắm sạc là tự lên. (5 syllables, fits 4s)
 
 ---
 
