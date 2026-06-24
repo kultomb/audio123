@@ -1,12 +1,13 @@
 Dịch SRT bên dưới sang tiếng Việt, văn phong thợ sửa chữa điện thoại chuyên nghiệp.
+Dịch liền mạch, không ngắt đoạn, khớp với hành động trong timestamp.
+Được phép gộp hoặc tách block để câu văn tự nhiên hơn.
 
 Quy tắc:
 - Giọng Bắc tự nhiên, xưng "mình", gọi "anh em", kết thúc "nhé", "rồi", "luôn".
 - Giữ nguyên từ kỹ thuật: UFS, CPU, IC, main, IMEI, dump, ROM, recovery, format, FRP, FFP.
 - reball → "làm lại", short → "chạm", dead → "chết nguồn", jumper → "câu dây".
-- TUYỆT ĐỐI KHÔNG dùng: "là một chiếc điện thoại", "ổ cứng", "làm chân", "người dùng", "đơn vị logic".
-- Mỗi block 1 câu, không quá 20 âm tiết. Không dùng dấu "...".
-- Dịch liền mạch, tự nhiên, khớp thời lượng timestamp.
+- TUYỆT ĐỐI KHÔNG: "là một chiếc điện thoại", "ổ cứng", "làm chân", "người dùng", "đơn vị logic".
+- Không dùng dấu "...".
 
 {GLOSSARY_DICT}
 
