@@ -383,7 +383,7 @@ class AppSettings:
             "merge_short_sub": False,
             "vad_type": "silero",
             "trans_thread": 10,
-            "aitrans_thread": 50,
+            "aitrans_thread": 10,
             "translation_wait": 0,
             "dubbing_wait": 1,
             "dubbing_thread": 1,
