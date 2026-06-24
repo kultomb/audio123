@@ -71,11 +71,11 @@ class Gemini(BaseTrans):
                 ),
             ]
             think_cfg=types.ThinkingConfig(
-                        thinking_level="HIGH",
+                        thinking_level="LOW",
                 )
             if model.lower().startswith('gemini-2'):
                 think_cfg=types.ThinkingConfig(
-                        thinking_budget=24576,
+                        thinking_budget=0,
                     )
                 
             generate_content_config = types.GenerateContentConfig(
