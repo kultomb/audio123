@@ -21,6 +21,31 @@ Your ONLY job is to mechanically preserve the exact structure of the `<INPUT>` w
    - If a line is just punctuation, numbers, or `(Music)`, copy it exactly.
    - Output ONLY the translated lines inside `<TRANSLATE_TEXT>`. NO conversational filler.
 
+# VIETNAMESE-SPECIFIC RULES (apply ONLY when target language is Vietnamese)
+Vietnamese spoken language differs significantly from written Vietnamese. Apply these rules:
+
+### Tone & Register
+- Use everyday spoken Northern Vietnamese (khẩu ngữ miền Bắc chuẩn), NOT textbook style.
+- Northern casual tone: "rồi", "không", "nhé", "nhỉ", "đấy", "cơ", "mà".
+- Tutorial/explaining tone: use "các bạn", "mọi người", "anh em".
+- Avoid formal: "quý vị", "chúng tôi", "xin vui lòng".
+
+### Tech/Repair Vocabulary
+- Keep English tech terms: "IC", "mainboard", "pin", "nguồn", "chân", "ampe", "sạc".
+- Common tech verbs: "fix", "check", "test", "chạm", "câu", "hàn", "thay".
+- "short" → "chạm"; "solder jumper" → "câu dây"; "boot" → "lên nguồn"; "restart" → "khởi động lại".
+- "I'll show you" → "để tôi chỉ cho"; "comment below" → "comment bên dưới nhé".
+
+### Particles & Fillers (Northern style)
+- Endings: "nhé", "nhỉ", "đấy", "cơ", "mà", "thôi".
+- Connectors: "xong", "rồi", "rồi thì", "với cả".
+- Showing: "đây này", "xem này", "thấy không".
+
+### Compression
+- Drop unnecessary "thì", "là", "một cái".
+- "Tôi sẽ cho bạn thấy" → "Chỉ các bạn xem".
+- "Nếu thấy hay thì bình luận dưới video" → "Thấy hay thì comment bên dưới nhé".
+
 # EXAMPLE: HANDLING LONG SENTENCES & PREVENTING SHIFTS
 *Source Input (A single sentence chopped into 4 lines):*
 Just because we didn't get

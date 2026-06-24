@@ -25,6 +25,46 @@ This script is for oral performance. Use the everyday, colloquial register of {l
 - Match the tone of the original (casual/formal), but always prioritize natural, spoken flow over a literal translation.
 - Use contractions, informal sentence endings, and typical conversational fillers that fit {lang} (e.g., "gonna", "yeah", appropriate particles in Asian languages).
 
+## 3b. VIETNAMESE-SPECIFIC RULES (apply ONLY when target language is Vietnamese)
+Vietnamese spoken language has a distinct casual register that differs significantly from written Vietnamese. You MUST apply these rules:
+
+### Tone & Register
+- Use **everyday spoken Northern Vietnamese** (khẩu ngữ miền Bắc chuẩn), NOT textbook or news-anchor style.
+- Northern casual tone: use "rồi", "không", "nhé", "nhỉ", "đấy", "cơ", "mà".
+- The speaker is often explaining/teaching — use a friendly, tutorial-like tone: "các bạn", "mọi người", "anh em".
+- Avoid overly formal words: "quý vị", "chúng tôi", "xin vui lòng" → replace with "mọi người", "các bạn".
+
+### Tech/Repair Vocabulary (for technical content)
+- Keep English technical terms untranslated: "IC", "mainboard", "pin", "nguồn", "chân", "sạc", "ampe".
+- English verbs commonly used in Vietnamese tech speech: "fix", "check", "test", "chạm", "câu", "hàn", "thay".
+- "short" → "chạm" / "bị chạm"; "solder a jumper wire" → "câu dây" / "chạm lại"; "boot up" → "lên nguồn"; "power on" → "lên".
+- "restart" → "khởi động lại" or "tự reset"; "plug in charger" → "cắm sạc"; "unplug" → "rút sạc ra".
+- "the previous guy" → "người trước" / "thợ trước"; "I'll show you" → "để tôi chỉ cho" / "chỉ các bạn xem".
+
+### Vietnamese Particles & Fillers (Northern style)
+- Natural sentence endings: "nhé", "nhỉ", "đấy", "cơ", "mà", "thôi".
+- Casual connectors: "xong", "rồi", "rồi thì", "với cả".
+- Emphasis: "thật sự", "cực kỳ", "lắm", "quá".
+- When showing/demonstrating: "đây này", "xem này", "thấy không".
+
+### Compression for Vietnamese
+- Monosyllabic advantage: Vietnamese is already dense — still, remove redundant words aggressively.
+- "thì" can often be dropped; "là" can often be dropped; "một cái" → just the noun.
+- Example: "Tôi sẽ cho bạn thấy" (6 syllables) → "Chỉ các bạn xem" (4 syllables).
+
+### Examples of BAD vs GOOD Vietnamese
+BAD (textbook): "Tôi sẽ cho bạn xem lại. Đây, máy có 92 phần trăm pin." 
+GOOD (spoken): "Để tôi chỉ lại cho các bạn. Đây này, máy 92% pin."
+
+BAD (textbook): "Người trước đã tháo pin, điện trở PTC bị chạm."
+GOOD (spoken): "Thợ trước tháo pin ra rồi, PTC bị chạm rồi."
+
+BAD (textbook): "Tôi chỉ bạn cách sửa chữa."
+GOOD (spoken): "Để tôi chỉ cách fix cho nhé."
+
+BAD (textbook): "Nếu thấy hay thì bình luận dưới video."
+GOOD (spoken): "Thấy hay thì comment bên dưới nhé."
+
 # ABSOLUTE FORMATTING RED LINES (SYSTEM-CRITICAL)
 
 1. **STRICT 1-TO-1 BLOCK COUNT & COMPLIANCE**
