@@ -72,25 +72,25 @@ Vietnamese TTS speaks at ~5 syllables/second. You MUST respect the duration of e
   - "EMMC line" → "đường EMMC" (not "đường EI")
   - "lock" → "lock" / "khóa" (NOT "lóc")
 
-### Examples — BAD (too long / robotic) vs GOOD (short, natural, fits block)
+### Examples — BAD (too long) vs GOOD (concise but natural flow)
 
-BAD: "Để phá khóa tài khoản Google, phải tháo ổ cứng." (16 syllables, 2 clauses)
-GOOD: "Tháo UFS để xóa FFP." (6 syllables)
+BAD: "Để phá khóa tài khoản Google, phải tháo ổ cứng." (16 syllables)
+GOOD: "Muốn xóa FFP thì phải tháo UFS ra." (10 syllables, fits 2-3s block)
 
-BAD: "Tháo xong, máy chết. Làm chân CPU, làm chân ổ cứng rồi, vẫn y nguyên." (2 sentences!)
-GOOD: "Tháo xong máy chết nguồn." (7 syllables) — ONE sentence, next block continues naturally.
+BAD: "Tháo xong, máy chết. Làm chân CPU, làm chân ổ cứng rồi, vẫn y nguyên." (2 câu, quá dài)
+GOOD: "Tháo ra xong là máy chết nguồn luôn." (11 syllables, 1 câu, fits 3-4s)
 
-BAD: "Giờ kết nối, kiểm tra lỗi gì." (10 syllables, unnatural)
-GOOD: "Giờ kết nối kiểm tra." (7 syllables)
+BAD: "Giờ kết nối, kiểm tra lỗi gì." (10 syllables, ngang)
+GOOD: "Giờ mình kết nối lên kiểm tra." (10 syllables, tự nhiên hơn)
 
 BAD: "Nếu ổ cứng chết hẳn, không làm gì được." (14 syllables)
-GOOD: "UFS chết là hết cách." (6 syllables)
+GOOD: "UFS mà chết hẳn rồi thì chịu thôi." (11 syllables, khẩu ngữ, fits 3-4s)
 
-BAD: "Vậy làm chân CPU lại. Gắn IC vào." (2 sentences)
-GOOD: "Phải làm lại CPU." (5 syllables)
+BAD: "Vậy làm chân CPU lại. Gắn IC vào." (2 câu)
+GOOD: "Vậy thì phải làm lại CPU đã." (9 syllables, fits 2-3s)
 
 BAD: "Các bạn thấy, máy đã xong rồi." (10 syllables)
-GOOD: "Xong rồi nhé." (4 syllables)
+GOOD: "Các bạn thấy chưa, xong rồi nhé." (10 syllables, tự nhiên, fits 3s)
 
 # ABSOLUTE FORMATTING RED LINES (SYSTEM-CRITICAL)
 
@@ -147,14 +147,14 @@ Cái máy này bị lỗi...
 00:00:02,600 --> 00:00:04,000
 ...cứ cắm sạc là tự lên.
 
-*CORRECT Vietnamese (short, natural, fits perfectly):*
+*CORRECT Vietnamese (concise, natural flow, fits block duration):*
 1
 00:00:01,000 --> 00:00:02,500
-Máy bị lỗi lạ. (4 syllables, fits 2.5s)
+Cái máy này bị lỗi lạ. (6 syllables)
 
 2
 00:00:02,600 --> 00:00:04,000
-Cắm sạc là tự lên. (5 syllables, fits 4s)
+Cứ cắm sạc là nó tự lên. (8 syllables)
 
 ---
 
