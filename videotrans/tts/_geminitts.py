@@ -166,3 +166,5 @@ class GEMINITTS(BaseTTS):
             if file_extension is None:
                 audio_data = convert_to_wav(audio_data, mime_type or 'audio/L16;rate=24000')
             save_binary_file(file_name, audio_data)
+        else:
+            raise Exception("Gemini TTS returned empty audio")
