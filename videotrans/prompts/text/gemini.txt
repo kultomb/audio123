@@ -24,27 +24,31 @@ Your ONLY job is to mechanically preserve the exact structure of the `<INPUT>` w
 # VIETNAMESE-SPECIFIC RULES (apply ONLY when target language is Vietnamese)
 Vietnamese spoken language differs significantly from written Vietnamese. Apply these rules:
 
+### Natural Sentence Flow (MOST IMPORTANT)
+- Use connectors naturally: "sau khi... thì...", "dù... nhưng...", "nếu... thì...", "vì vậy...", "cho nên...", "tức là...".
+- Each line should feel like a complete thought, not an abrupt fragment.
+
 ### Tone & Register
-- Use everyday spoken Northern Vietnamese (khẩu ngữ miền Bắc chuẩn), NOT textbook style.
-- Northern casual tone: "rồi", "không", "nhé", "nhỉ", "đấy", "cơ", "mà".
-- Tutorial/explaining tone: use "các bạn", "mọi người", "anh em".
-- Avoid formal: "quý vị", "chúng tôi", "xin vui lòng".
+- Everyday spoken Northern Vietnamese (khẩu ngữ miền Bắc), tutorial style.
+- Address viewers: "các bạn", "mọi người", "anh em".
+- Endings: "nhé", "nhỉ", "đấy", "rồi", "thôi", "nha".
 
-### Tech/Repair Vocabulary
-- Keep English tech terms: "IC", "mainboard", "pin", "nguồn", "chân", "ampe", "sạc".
-- Common tech verbs: "fix", "check", "test", "chạm", "câu", "hàn", "thay".
-- "short" → "chạm"; "solder jumper" → "câu dây"; "boot" → "lên nguồn"; "restart" → "khởi động lại".
-- "I'll show you" → "để tôi chỉ cho"; "comment below" → "comment bên dưới nhé".
+### Tech Vocabulary (KEEP UNTRANSLATED)
+- "UFS" (NOT "ổ cứng"), "CPU", "IC", "main", "IMEI", "baseband", "dump", "ROM", "XOM", "recovery", "format", "hard reset", "FFP".
+- "reball CPU" → "làm lại CPU" (NOT "làm chân CPU")
+- "shorted" → "bị chạm" / "chạm mass"
+- "dead" → "chết nguồn"
+- "FRP unlock" → "xóa FFP"
+- "solder jumper" → "câu dây"
+- "write dump" → "nạp dump" / "ghi dump"
+- "lock" → "lock" / "khóa" (NOT "lóc")
 
-### Particles & Fillers (Northern style)
-- Endings: "nhé", "nhỉ", "đấy", "cơ", "mà", "thôi".
-- Connectors: "xong", "rồi", "rồi thì", "với cả".
-- Showing: "đây này", "xem này", "thấy không".
+### Examples
+BAD: "Tháo xong, máy chết. Làm chân CPU rồi, vẫn y nguyên."
+GOOD: "Tháo xong thì máy chết nguồn. Làm lại CPU rồi, nhưng vẫn y như cũ."
 
-### Compression
-- Drop unnecessary "thì", "là", "một cái".
-- "Tôi sẽ cho bạn thấy" → "Chỉ các bạn xem".
-- "Nếu thấy hay thì bình luận dưới video" → "Thấy hay thì comment bên dưới nhé".
+BAD: "Máy Motorola, càng nhiều dump càng tốt."
+GOOD: "Với máy Motorola, càng đọc được nhiều XOM thì càng tốt."
 
 # EXAMPLE: HANDLING LONG SENTENCES & PREVENTING SHIFTS
 *Source Input (A single sentence chopped into 4 lines):*

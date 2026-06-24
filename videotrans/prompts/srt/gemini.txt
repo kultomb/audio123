@@ -27,44 +27,59 @@ This script is for oral performance. Use the everyday, colloquial register of {l
 - Use contractions, informal sentence endings, and typical conversational fillers that fit {lang} (e.g., "gonna", "yeah", appropriate particles in Asian languages).
 
 ## 3b. VIETNAMESE-SPECIFIC RULES (apply ONLY when target language is Vietnamese)
-Vietnamese spoken language has a distinct casual register that differs significantly from written Vietnamese. You MUST apply these rules:
+Vietnamese spoken language differs significantly from written Vietnamese. You MUST apply these rules to sound like a real Vietnamese speaker, not a machine.
+
+### Natural Sentence Flow (MOST IMPORTANT)
+- Vietnamese speech flows with connectors. Use them naturally:
+  - "sau khi... thì..." (after... then...)
+  - "dù... nhưng..." (even though... but...)
+  - "nếu... thì..." (if... then...)
+  - "vì vậy...", "cho nên...", "thế nên..." (therefore)
+  - "tức là...", "nghĩa là..." (meaning...)
+- Each block should feel like a complete thought. End with natural periods, not abrupt cuts.
+- The listener should feel like a teacher is explaining step-by-step, not reading bullet points.
 
 ### Tone & Register
-- Use **everyday spoken Northern Vietnamese** (khẩu ngữ miền Bắc chuẩn), NOT textbook or news-anchor style.
-- Northern casual tone: use "rồi", "không", "nhé", "nhỉ", "đấy", "cơ", "mà".
-- The speaker is often explaining/teaching — use a friendly, tutorial-like tone: "các bạn", "mọi người", "anh em".
-- Avoid overly formal words: "quý vị", "chúng tôi", "xin vui lòng" → replace with "mọi người", "các bạn".
+- Use everyday spoken Northern Vietnamese (khẩu ngữ miền Bắc), friendly tutorial style.
+- Address the viewer naturally: "các bạn", "mọi người", "anh em".
+- Sentence endings: "nhé", "nhỉ", "đấy", "rồi", "thôi", "nha".
+- Avoid: "quý vị", "chúng tôi", "xin vui lòng", robotic literal translations.
 
-### Tech/Repair Vocabulary (for technical content)
-- Keep English technical terms untranslated: "IC", "mainboard", "pin", "nguồn", "chân", "sạc", "ampe".
-- English verbs commonly used in Vietnamese tech speech: "fix", "check", "test", "chạm", "câu", "hàn", "thay".
-- "short" → "chạm" / "bị chạm"; "solder a jumper wire" → "câu dây" / "chạm lại"; "boot up" → "lên nguồn"; "power on" → "lên".
-- "restart" → "khởi động lại" or "tự reset"; "plug in charger" → "cắm sạc"; "unplug" → "rút sạc ra".
-- "the previous guy" → "người trước" / "thợ trước"; "I'll show you" → "để tôi chỉ cho" / "chỉ các bạn xem".
+### Tech/Repair Vocabulary (CRITICAL for technical videos)
+- **NEVER translate these terms** — keep them as-is:
+  - "UFS" (NOT "ổ cứng"), "CPU", "IC", "mainboard" / "main", "IMEI", "baseband", "dump", "ROM", "XOM", "recovery", "format", "hard reset", "FFP".
+- Verbs used naturally in Vietnamese tech speech:
+  - "reball/rework CPU" → "làm lại CPU" / "xử lý lại CPU" (NOT "làm chân CPU")
+  - "reball UFS" → "làm lại UFS" / "xử lý lại UFS"
+  - "short" / "shorted" → "bị chạm" / "chạm mass"
+  - "dead" / "no power" → "chết nguồn" / "không lên nguồn"
+  - "FRP/FFP unlock" → "xóa FFP" / "phá khóa FRP"
+  - "solder jumper" → "câu dây"
+  - "write dump" → "nạp dump" / "ghi dump"
+  - "flash ROM" → "nạp ROM"
+  - "backup" → "sao lưu" (not "backup dữ liệu")
+  - "logical units" → "đơn vị luận lý" / "logical unit" (can keep English)
+  - "EMMC line" → "đường EMMC" (not "đường EI")
+  - "lock" → "lock" / "khóa" (NOT "lóc")
 
-### Vietnamese Particles & Fillers (Northern style)
-- Natural sentence endings: "nhé", "nhỉ", "đấy", "cơ", "mà", "thôi".
-- Casual connectors: "xong", "rồi", "rồi thì", "với cả".
-- Emphasis: "thật sự", "cực kỳ", "lắm", "quá".
-- When showing/demonstrating: "đây này", "xem này", "thấy không".
+### Examples — BAD (robotic) vs GOOD (natural spoken)
+BAD: "Để phá khóa tài khoản Google, phải tháo ổ cứng."
+GOOD: "Để xóa FFP, cần phải tháo UFS ra."
 
-### Compression for Vietnamese
-- Monosyllabic advantage: Vietnamese is already dense — still, remove redundant words aggressively.
-- "thì" can often be dropped; "là" can often be dropped; "một cái" → just the noun.
-- Example: "Tôi sẽ cho bạn thấy" (6 syllables) → "Chỉ các bạn xem" (4 syllables).
+BAD: "Tháo xong, máy chết. Làm chân CPU, làm chân ổ cứng rồi, vẫn y nguyên."
+GOOD: "Tháo xong thì máy chết nguồn. Làm lại CPU rồi, làm lại UFS rồi, nhưng tình trạng vẫn y như cũ."
 
-### Examples of BAD vs GOOD Vietnamese
-BAD (textbook): "Tôi sẽ cho bạn xem lại. Đây, máy có 92 phần trăm pin." 
-GOOD (spoken): "Để tôi chỉ lại cho các bạn. Đây này, máy 92% pin."
+BAD: "Giờ kết nối, kiểm tra lỗi gì."
+GOOD: "Bây giờ mình kết nối vào, kiểm tra xem lỗi gì."
 
-BAD (textbook): "Người trước đã tháo pin, điện trở PTC bị chạm."
-GOOD (spoken): "Thợ trước tháo pin ra rồi, PTC bị chạm rồi."
+BAD: "Nếu ổ cứng chết hẳn, không làm gì được."
+GOOD: "Nếu UFS đã chết hoàn toàn thì không thể làm gì được nữa."
 
-BAD (textbook): "Tôi chỉ bạn cách sửa chữa."
-GOOD (spoken): "Để tôi chỉ cách fix cho nhé."
+BAD: "Vậy làm chân CPU lại. Gắn IC vào."
+GOOD: "Vậy thì phải làm lại CPU. Rồi gắn IC vào."
 
-BAD (textbook): "Nếu thấy hay thì bình luận dưới video."
-GOOD (spoken): "Thấy hay thì comment bên dưới nhé."
+BAD: "Các bạn thấy, máy đã xong rồi."
+GOOD: "Các bạn thấy đấy, máy đã xong rồi nhé."
 
 # ABSOLUTE FORMATTING RED LINES (SYSTEM-CRITICAL)
 
