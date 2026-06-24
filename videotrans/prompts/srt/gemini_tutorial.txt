@@ -49,4 +49,6 @@ Bây giờ dịch SRT sau, đúng phong cách như ví dụ trên:
 {batch_input}
 </INPUT>
 
+Chỉ xuất SRT trong thẻ <TRANSLATE_TEXT>. Không thêm gì khác.
+
 Chỉ xuất SRT trong thẻ <TRANSLATE_TEXT>.
