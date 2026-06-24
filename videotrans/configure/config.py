@@ -454,7 +454,7 @@ class AppSettings:
             "process_max": 0,
             "process_max_gpu": 1,
             "multi_gpus": False,
-            "retry_nums":1,
+            "retry_nums": 3,
             "chattts_voice": ChatTTS_VOICE,
             "proxy": ""
         }
