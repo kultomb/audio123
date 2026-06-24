@@ -133,7 +133,8 @@ class GEMINITTS(BaseTTS):
                     prebuilt_voice_config=types.PrebuiltVoiceConfig(
                         voice_name=voice
                     )
-                )
+                ),
+                speaking_rate=self.get_speed(),
             ),
         )
         audio_chunks = []
