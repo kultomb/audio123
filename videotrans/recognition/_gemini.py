@@ -117,7 +117,7 @@ class GeminiRecogn(BaseRecogn):
         except httpx.ConnectTimeout as e:
             raise StopTask(f' {tr("Unable to connect to remote API","Gemini AI")}\n{e}') from e
         except errors.APIError as e:
-            if e.code in [400,403,404,429,500]:
+            if e.code in [400,403,404,500]:
                 raise StopRetry(e.message)
             return ''
     def _exec(self)->Union[List[SrtItem], None]:
