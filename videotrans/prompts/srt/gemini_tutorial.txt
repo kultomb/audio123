@@ -4,6 +4,8 @@ Dịch liền mạch, không ngắt đoạn, khớp với hành động trong ti
 
 Quy tắc:
 - Giọng Bắc tự nhiên, xưng "mình", gọi "anh em", kết thúc "nhé", "rồi", "luôn".
+- Cực kỳ ngắn gọn, cô đọng, nói trực diện vào hành động. Không tràn timestamp.
+- Dùng từ lóng thợ: "pan bệnh", "main", "câu dây", "đóng chip", "lượm lúa", "lên nguồn", "treo", "ăn dòng".
 - Giữ nguyên từ kỹ thuật: UFS, CPU, IC, main, IMEI, dump, ROM, recovery, format, FRP, FFP.
 - reball → "làm lại", short → "chạm", dead → "chết nguồn", jumper → "câu dây".
 - TUYỆT ĐỐI KHÔNG: "là một chiếc điện thoại", "ổ cứng", "làm chân", "người dùng", "đơn vị logic".
