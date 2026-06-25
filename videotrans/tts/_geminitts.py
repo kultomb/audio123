@@ -213,7 +213,6 @@ class GEMINITTS(BaseTTS):
                 if '429' in str(e) or 'RESOURCE_EXHAUSTED' in str(e):
                     wait = 5 * attempt  # 5s, 10s, 15s
                     logger.warning(f'[Gemini TTS] Quota exceeded (attempt {attempt}/{max_retries}), waiting {wait}s...')
-                    import time
                     time.sleep(wait)
                     continue
                 raise  # lỗi khác, ném ra ngoài
@@ -228,7 +227,6 @@ class GEMINITTS(BaseTTS):
 
             logger.warning(f'[Gemini TTS] Attempt {attempt}/{max_retries}: no audio returned for text: {text[:100]}...')
             if attempt < max_retries:
-                import time
                 time.sleep(1)  # đợi 1 giây trước khi thử lại
 
         raise Exception(f"Gemini TTS returned empty audio after {max_retries} attempts for text: {text[:100]}...")
