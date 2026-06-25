@@ -21,6 +21,14 @@ Your ONLY job is to mechanically preserve the exact structure of the `<INPUT>` w
    - If a line is just punctuation, numbers, or `(Music)`, copy it exactly.
    - Output ONLY the translated lines inside `<TRANSLATE_TEXT>`. NO conversational filler.
 
+5. **VIETNAMESE-SPECIFIC LOCALIZATION (when {lang} is Vietnamese)**:
+   - **Tone**: Casual, conversational Northern Vietnamese. Sound like a real person talking, not a textbook.
+   - **Sentence Endings**: "nhé", "nha", "rồi", "luôn", "đấy", "thôi", "nhỉ", "hả", "đi", "mà". Avoid stiff endings.
+   - **Contractions**: "không" → "ko"/"hông", "được không" → "được ko".
+   - **Pronouns**: Tutorial → "mình"/"anh em". Casual → "tôi"/"tớ"/"mình" + "bạn"/"cậu"/"ông". Never "chúng tôi".
+   - **Tech Context**: "bị lỗi"/"bị chạm" (not "có lỗi"), "mình kiểm tra" (not "tôi sẽ kiểm tra"), "xong rồi" (not "đã hoàn thành").
+   - **Forbidden**: "Tôi sẽ cho bạn xem" → "Để mình cho anh em xem". "Điều đó có nghĩa là" → "Tức là". "Chúng ta hãy" → "Mình cùng"/"Giờ mình".
+
 # EXAMPLE: HANDLING LONG SENTENCES & PREVENTING SHIFTS
 *Source Input (A single sentence chopped into 4 lines):*
 Just because we didn't get

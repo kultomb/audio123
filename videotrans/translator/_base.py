@@ -145,7 +145,19 @@ class BaseTrans(BaseCon):
                 self._set_cache(it, result)
 
             self.signal(text=result, type='subtitle')
-            raws_list.extend(get_subtitle_from_srt(result, is_file=False))
+            parsed = get_subtitle_from_srt(result, is_file=False)
+            # CRITICAL: Overwrite timestamps with originals from input, because
+            # Gemini may corrupt timestamps (e.g. 00:00:16 -> 00:01:16).
+            # Only copy the translated text, keep original timing.
+            for j, srt_item in enumerate(it):
+                if j < len(parsed):
+                    parsed[j]['line'] = srt_item['line']
+                    parsed[j]['time'] = srt_item['time']
+                    parsed[j]['start_time'] = srt_item['start_time']
+                    parsed[j]['startraw'] = srt_item['startraw']
+                    parsed[j]['end_time'] = srt_item['end_time']
+                    parsed[j]['endraw'] = srt_item['endraw']
+            raws_list.extend(parsed)
             time.sleep(self.wait_sec)
 
         _empty_line = 0

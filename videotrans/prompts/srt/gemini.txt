@@ -26,6 +26,32 @@ This script is for oral performance. Use the everyday, colloquial register of {l
 - Match the tone of the original (casual/formal), but always prioritize natural, spoken flow over a literal translation.
 - Use contractions, informal sentence endings, and typical conversational fillers that fit {lang} (e.g., "gonna", "yeah", appropriate particles in Asian languages).
 
+## 3b. VIETNAMESE-SPECIFIC LOCALIZATION (when {lang} is Vietnamese)
+- **Tone**: Casual, conversational Northern Vietnamese. Sound like a real person talking, not a textbook or news anchor.
+- **Sentence Endings**: Use natural particles — "nhé", "nha", "rồi", "luôn", "đấy", "thôi", "nhỉ", "hả", "ạ", "đi", "mà", "cơ", "chứ". Avoid stiff endings like "đó ạ" or "vậy ạ".
+- **Contractions & Casual Speech**: "không" → "ko"/"hông", "được không" → "được ko", "thế nào" → "thế nào", "làm sao" → "làm sao", "cái này" → "cái này". Use naturally, don't force.
+- **Pronouns**: 
+  - Tutorial/instructional: use "mình" for self, "anh em"/"các bạn" for audience
+  - Casual conversation: use "tôi"/"tớ"/"mình" for self, "bạn"/"cậu"/"ông"/"bà" depending on context
+  - Never use "chúng tôi" (too formal). Use "tụi mình"/"bọn mình" instead.
+- **Tech/Repair Context**: 
+  - "bị lỗi" not "có lỗi", "bị chạm" not "có chạm"
+  - "mình kiểm tra" not "tôi sẽ kiểm tra", "xem thế nào" not "xem như thế nào"
+  - "xong rồi" not "đã hoàn thành", "chưa được" not "không thành công"
+- **Common Spoken Patterns**:
+  - "Đây, anh em thấy..." (Here, you can see...)
+  - "Giờ mình..." (Now I'll...)
+  - "Thế là..." (So...)
+  - "Xong!" / "Được rồi!" (Done!)
+  - "Để mình..." (Let me...)
+- **Forbidden Patterns** (sound unnatural/stiff in spoken Vietnamese):
+  - "Tôi sẽ cho bạn xem" → "Để mình cho anh em xem"
+  - "Bạn có thể thấy" → "Anh em thấy đấy"
+  - "Điều đó có nghĩa là" → "Tức là" / "Nghĩa là"
+  - "là một chiếc điện thoại" → just say the phone name directly
+  - "Như các bạn đã biết" → skip entirely, just state the fact
+  - "Chúng ta hãy" → "Mình cùng" / "Giờ mình"
+
 # ABSOLUTE FORMATTING RED LINES (SYSTEM-CRITICAL)
 
 1. **STRICT 1-TO-1 BLOCK COUNT & COMPLIANCE**
