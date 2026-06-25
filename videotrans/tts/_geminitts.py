@@ -20,7 +20,7 @@ from videotrans.tts._base import BaseTTS
 # Global rate limiter: Vertex AI TTS quota rất thấp (5 req/min), cần delay giữa các call
 _tts_lock = threading.Lock()
 _last_tts_time = 0.0
-_MIN_TTS_INTERVAL = 3.0  # tối thiểu 3 giây giữa các lần gọi TTS
+_MIN_TTS_INTERVAL = 12.0  # tối thiểu 12 giây giữa các lần gọi TTS (5 req/min)
 
 
 @dataclass
@@ -178,19 +178,19 @@ class GEMINITTS(BaseTTS):
                 )
             ),
         )
-        # Rate limiter: đợi đến lượt để tránh 429 quota exceeded
-        global _last_tts_time
-        with _tts_lock:
-            elapsed = time.time() - _last_tts_time
-            if elapsed < _MIN_TTS_INTERVAL:
-                wait = _MIN_TTS_INTERVAL - elapsed
-                logger.debug(f'[Gemini TTS] Rate limiter: waiting {wait:.1f}s before next call')
-                time.sleep(wait)
-            _last_tts_time = time.time()
-
         # Retry loop: Gemini đôi khi từ chối tạo audio (safety filter) hoặc quota, thử lại tối đa 3 lần
         max_retries = 3
         for attempt in range(1, max_retries + 1):
+            # Rate limiter: đợi đến lượt trước mỗi lần gọi Gemini
+            global _last_tts_time
+            with _tts_lock:
+                elapsed = time.time() - _last_tts_time
+                if elapsed < _MIN_TTS_INTERVAL:
+                    wait = _MIN_TTS_INTERVAL - elapsed
+                    logger.debug(f'[Gemini TTS] Rate limiter: waiting {wait:.1f}s')
+                    time.sleep(wait)
+                _last_tts_time = time.time()
+
             audio_chunks = []
             mime_type = None
             try:
