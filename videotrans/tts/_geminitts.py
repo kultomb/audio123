@@ -9,7 +9,7 @@ from typing import Union, Dict, List
 
 from google import genai
 from google.api_core.exceptions import Unauthorized
-from google.genai import types
+from google.genai import types, errors
 from tenacity import retry, stop_after_attempt, wait_fixed, retry_if_not_exception_type, before_log, after_log
 from videotrans.configure.config import params, logger, settings
 from videotrans.configure.excepts import NO_RETRY_EXCEPT, StopTask
@@ -171,26 +171,35 @@ class GEMINITTS(BaseTTS):
                 )
             ),
         )
-        # Retry loop: Gemini đôi khi từ chối tạo audio (safety filter), thử lại tối đa 3 lần
+        # Retry loop: Gemini đôi khi từ chối tạo audio (safety filter) hoặc quota, thử lại tối đa 3 lần
         max_retries = 3
         for attempt in range(1, max_retries + 1):
             audio_chunks = []
             mime_type = None
-            for chunk in client.models.generate_content_stream(
-                    model=model,
-                    contents=contents,
-                    config=generate_content_config,
-            ):
-                if (
-                        chunk.candidates is None
-                        or chunk.candidates[0].content is None
-                        or chunk.candidates[0].content.parts is None
+            try:
+                for chunk in client.models.generate_content_stream(
+                        model=model,
+                        contents=contents,
+                        config=generate_content_config,
                 ):
+                    if (
+                            chunk.candidates is None
+                            or chunk.candidates[0].content is None
+                            or chunk.candidates[0].content.parts is None
+                    ):
+                        continue
+                    if chunk.candidates[0].content.parts[0].inline_data:
+                        inline_data = chunk.candidates[0].content.parts[0].inline_data
+                        mime_type = inline_data.mime_type
+                        audio_chunks.append(inline_data.data)
+            except errors.ClientError as e:
+                if '429' in str(e) or 'RESOURCE_EXHAUSTED' in str(e):
+                    wait = 5 * attempt  # 5s, 10s, 15s
+                    logger.warning(f'[Gemini TTS] Quota exceeded (attempt {attempt}/{max_retries}), waiting {wait}s...')
+                    import time
+                    time.sleep(wait)
                     continue
-                if chunk.candidates[0].content.parts[0].inline_data:
-                    inline_data = chunk.candidates[0].content.parts[0].inline_data
-                    mime_type = inline_data.mime_type
-                    audio_chunks.append(inline_data.data)
+                raise  # lỗi khác, ném ra ngoài
 
             if audio_chunks:
                 audio_data = b''.join(audio_chunks)
