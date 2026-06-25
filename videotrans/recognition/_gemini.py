@@ -119,7 +119,14 @@ class GeminiRecogn(BaseRecogn):
         except errors.APIError as e:
             if e.code in [400,403,404,500]:
                 raise StopRetry(e.message)
+            # 429 quota exceeded, return empty to trigger retry
             return ''
+        except errors.ClientError as e:
+            # ClientError may wrap 429, return empty to trigger retry
+            if '429' in str(e) or 'RESOURCE_EXHAUSTED' in str(e):
+                logger.warning(f'Gemini ASR quota exceeded, will retry')
+                return ''
+            raise
     def _exec(self)->Union[List[SrtItem], None]:
         seg_list = self.cut_audio()
         if len(seg_list) < 1:

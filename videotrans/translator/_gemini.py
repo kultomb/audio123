@@ -143,7 +143,10 @@ class Gemini(BaseTrans):
             raise StopTask(f' {tr("Unable to connect to remote API","Gemini AI")}\n{e}') from e
         except errors.APIError as e:
             logger.warning(f'{e=}')
-            if e.code in [400,403,404,429,500]:
+            if e.code in [400,403,404,500]:
                 raise StopTask(e.message)
+            # 429 = quota exceeded, retry sẽ xử lý
+            if e.code == 429:
+                raise TranslateSrtError(f"Gemini quota exceeded (429), will retry")
             raise TranslateSrtError(e.message)
 
