@@ -2,3 +2,83 @@ QToolBar {  margin:0;    padding:0;    border-image:none;} QToolBar QToolButton 
 QAbstractSpinBox{background-color: #19232D;border: 1px solid #455364;color: #DFE1E2;padding-top: 2px;
 padding-bottom: 2px;  padding-left: 4px;  padding-right: 4px;  border-radius: 4px;}
 
+QSpinBox::up-button {
+    subcontrol-origin: border;
+    subcontrol-position: top right;
+    width: 20px;
+    border-left: 1px solid #455364;
+    border-bottom: 1px solid #455364;
+    border-top-right-radius: 4px;
+}
+QSpinBox::up-button:hover {
+    background-color: #346792;
+}
+QSpinBox::up-arrow {
+    image: url(":/qss_icons/dark/rc/arrow_up.png");
+    width: 10px;
+    height: 10px;
+}
+QSpinBox::up-arrow:disabled {
+    image: url(":/qss_icons/dark/rc/arrow_up_disabled.png");
+}
+
+QSpinBox::down-button {
+    subcontrol-origin: border;
+    subcontrol-position: bottom right;
+    width: 20px;
+    border-left: 1px solid #455364;
+    border-top: 1px solid #455364;
+    border-bottom-right-radius: 4px;
+}
+QSpinBox::down-button:hover {
+    background-color: #346792;
+}
+QSpinBox::down-arrow {
+    image: url(":/qss_icons/dark/rc/arrow_down.png");
+    width: 10px;
+    height: 10px;
+}
+QSpinBox::down-arrow:disabled {
+    image: url(":/qss_icons/dark/rc/arrow_down_disabled.png");
+}
+
+QDoubleSpinBox::up-button {
+    subcontrol-origin: border;
+    subcontrol-position: top right;
+    width: 20px;
+    border-left: 1px solid #455364;
+    border-bottom: 1px solid #455364;
+    border-top-right-radius: 4px;
+}
+QDoubleSpinBox::up-button:hover {
+    background-color: #346792;
+}
+QDoubleSpinBox::up-arrow {
+    image: url(":/qss_icons/dark/rc/arrow_up.png");
+    width: 10px;
+    height: 10px;
+}
+QDoubleSpinBox::up-arrow:disabled {
+    image: url(":/qss_icons/dark/rc/arrow_up_disabled.png");
+}
+
+QDoubleSpinBox::down-button {
+    subcontrol-origin: border;
+    subcontrol-position: bottom right;
+    width: 20px;
+    border-left: 1px solid #455364;
+    border-top: 1px solid #455364;
+    border-bottom-right-radius: 4px;
+}
+QDoubleSpinBox::down-button:hover {
+    background-color: #346792;
+}
+QDoubleSpinBox::down-arrow {
+    image: url(":/qss_icons/dark/rc/arrow_down.png");
+    width: 10px;
+    height: 10px;
+}
+QDoubleSpinBox::down-arrow:disabled {
+    image: url(":/qss_icons/dark/rc/arrow_down_disabled.png");
+}
+
