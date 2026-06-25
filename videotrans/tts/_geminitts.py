@@ -171,35 +171,38 @@ class GEMINITTS(BaseTTS):
                 )
             ),
         )
-        audio_chunks = []
-        mime_type = None
-        for chunk in client.models.generate_content_stream(
-                model=model,
-                contents=contents,
-                config=generate_content_config,
-        ):
-            if (
-                    chunk.candidates is None
-                    or chunk.candidates[0].content is None
-                    or chunk.candidates[0].content.parts is None
+        # Retry loop: Gemini đôi khi từ chối tạo audio (safety filter), thử lại tối đa 3 lần
+        max_retries = 3
+        for attempt in range(1, max_retries + 1):
+            audio_chunks = []
+            mime_type = None
+            for chunk in client.models.generate_content_stream(
+                    model=model,
+                    contents=contents,
+                    config=generate_content_config,
             ):
-                continue
-            if chunk.candidates[0].content.parts[0].inline_data:
-                inline_data = chunk.candidates[0].content.parts[0].inline_data
+                if (
+                        chunk.candidates is None
+                        or chunk.candidates[0].content is None
+                        or chunk.candidates[0].content.parts is None
+                ):
+                    continue
+                if chunk.candidates[0].content.parts[0].inline_data:
+                    inline_data = chunk.candidates[0].content.parts[0].inline_data
+                    mime_type = inline_data.mime_type
+                    audio_chunks.append(inline_data.data)
 
-                # data_buffer = inline_data.data
-                # file_extension = mimetypes.guess_extension(inline_data.mime_type)
-                # if file_extension is None:
-                #     data_buffer = convert_to_wav(inline_data.data, inline_data.mime_type)
-                # save_binary_file(file_name, data_buffer)
-                mime_type = inline_data.mime_type
-                audio_chunks.append(inline_data.data)
+            if audio_chunks:
+                audio_data = b''.join(audio_chunks)
+                file_extension = mimetypes.guess_extension(mime_type) if mime_type else None
+                if file_extension is None:
+                    audio_data = convert_to_wav(audio_data, mime_type or 'audio/L16;rate=24000')
+                save_binary_file(file_name, audio_data)
+                return  # thành công, thoát
 
-        if audio_chunks:
-            audio_data = b''.join(audio_chunks)
-            file_extension = mimetypes.guess_extension(mime_type) if mime_type else None
-            if file_extension is None:
-                audio_data = convert_to_wav(audio_data, mime_type or 'audio/L16;rate=24000')
-            save_binary_file(file_name, audio_data)
-        else:
-            raise Exception(f"Gemini TTS returned empty audio for text: {text[:100]}...")
+            logger.warning(f'[Gemini TTS] Attempt {attempt}/{max_retries}: no audio returned for text: {text[:100]}...')
+            if attempt < max_retries:
+                import time
+                time.sleep(1)  # đợi 1 giây trước khi thử lại
+
+        raise Exception(f"Gemini TTS returned empty audio after {max_retries} attempts for text: {text[:100]}...")
