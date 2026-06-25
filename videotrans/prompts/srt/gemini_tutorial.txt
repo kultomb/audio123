@@ -30,30 +30,25 @@ Keep exactly as-is in the SRT text: CPU, RAM, IC, eMMC, UFS, main, IMEI, dump, R
 - Block ngắn (2-4s): 1 ý gọn, nhưng vẫn trọn vẹn
 - TUYỆT ĐỐI KHÔNG: câu cụt, thiếu chủ ngữ, bỏ lửng giữa chừng
 
+## 3c. VIETNAMESE SYLLABLE BUDGET (CRITICAL)
+Vietnamese speakers average 4-5 syllables per second in normal speech.
+- Block 1-2 seconds: MAX 8 syllables total
+- Block 2-3 seconds: MAX 12 syllables total
+- Block 3-4 seconds: MAX 18 syllables total
+- Block 4-5 seconds: MAX 22 syllables total
+- Block 5+ seconds: MAX 26 syllables total
+- COUNT SYLLABLES before finalizing each block. If over budget, cut words.
+- Priority: core meaning > connectors > filler words
+- Example: "Anh em thấy đấy, đây là một con MI 10i 5G" (14 syllables, too long for 4s block)
+  → "Đây là con MI 10i 5G, anh em" (8 syllables, fits 4s block)
+
 ## 4. DESCRIPTIVE & SPECIFIC
 - Nói rõ hành động: "nhấc ra", "đục ra", "thay thử", "đo đạt"
 - Nói rõ kết quả: "hết bệnh", "sạch chạm", "ổn định", "dao động bậy"
 - Thêm trạng từ: "sẵn", "thử", "lại", "tiếp", "dần", "kỹ"
 - Ví dụ: "đã được nhấc sẵn CPU" hay hơn "CPU đã nhấc ra"
 
-## 4. TECH SLANG (Vietnamese repair shop)
-- "ăn dòng" = current draw/leaking
-- "chạm mass" / "chạm thẳng" = dead short to ground
-- "chập ngầm" = internal short
-- "đục ra" / "nhấc ra" = removed/desoldered
-- "bốc" = lift off
-- "kích nguồn" = trigger power on
-- "treo đẹp" = stable (good)
-- "dao động bậy" = fluctuating (bad)
-- "hết bệnh" = problem solved
-- "sạch chạm" = short cleared
-- "đo đạt" = measuring/testing
-- "dò mạch" = trace circuit
-- "loại trừ dần" = rule out one by one
-- "đóng lại" = solder back
-- "pan" = fault/issue
-
-## 5. HANDLE REPETITION
+## 6. HANDLE REPETITION
 - Nếu 2 block liên tiếp có nội dung gần giống → block sau diễn đạt KHÁC ĐI, thêm chi tiết mới
 - Nếu block chứa câu marketing ("gọi Zalo", "liên hệ") → lược bỏ, giữ nội dung kỹ thuật
 - Nếu block chỉ có 1-2 từ → hoàn thiện thành 1 ý trọn vẹn
@@ -61,18 +56,18 @@ Keep exactly as-is in the SRT text: CPU, RAM, IC, eMMC, UFS, main, IMEI, dump, R
 ## 6. GLOSSARY OVERRIDE
 {GLOSSARY_DICT}
 
-## 7. CRITICAL: COMPLETE ALL BLOCKS - NO DROPPING
+## 8. CRITICAL: COMPLETE ALL BLOCKS - NO DROPPING
 - You MUST translate EVERY SINGLE block from the input. Do NOT skip, merge, or drop any blocks.
 - The output must have EXACTLY the same number of blocks as the input.
 
-## 8. CRITICAL: TIMESTAMPS - DO NOT MODIFY
+## 9. CRITICAL: TIMESTAMPS - DO NOT MODIFY
 - Timestamps are SACROSANCT. Copy them character-by-character from the input.
 - DO NOT change any timestamp. DO NOT add or remove seconds.
 - DO NOT merge blocks (which changes timestamps). Each block stands alone.
 - Wrong example: `00:00:12,368 --> 00:01:16,704` (changed end time!)
 - Correct: `00:00:12,368 --> 00:00:16,704` (identical to input)
 
-## 9. CRITICAL: OUTPUT FORMAT
+## 10. CRITICAL: OUTPUT FORMAT
 - Wrap ALL output in <TRANSLATE_TEXT>...</TRANSLATE_TEXT> tags.
 - Inside the tags, output ONLY valid SRT blocks — no commentary, no markdown, no extra text.
 - Each block separated by a blank line.
