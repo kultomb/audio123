@@ -69,35 +69,35 @@ This script is for oral performance. Use the everyday, colloquial register of {l
 4. **SILENT EXECUTION**
    - Do not output any conversational filler, explanations, or introductory text inside or outside the tags.
 
-# EXAMPLE OF NATURAL SELF-CONTAINED BLOCKS
+# EXAMPLE OF NATURAL SELF-CONTAINED BLOCKS (Vietnamese)
 
-*Source Input (sentence split across blocks):*
+*Source Input (tech repair - split across blocks):*
 1
 00:00:01,000 --> 00:00:02,500
-I think I'm gona
+VBAT đi qua MOSFET
 
 2
 00:00:02,600 --> 00:00:04,000
-go to the hospital right now.
+này rồi vào IC sạc.
 
-*WRONG (ellipsis makes TTS read "dot dot dot" aloud — terrible!):*
+*WRONG (ellipsis makes TTS read "dot dot dot" aloud):*
 1
 00:00:01,000 --> 00:00:02,500
-Creo que voy a...
+Vê Bát đi qua Mót Phét...
 
 2
 00:00:02,600 --> 00:00:04,000
-...ir al hospital ya.
+...này rồi vào IC sạc.
 
-*CORRECT (each block is a natural standalone phrase in {lang}):*
+*CORRECT (each block is a complete, speakable unit):*
 <TRANSLATE_TEXT>
 1
 00:00:01,000 --> 00:00:02,500
-I think I'm going.
+Vê Bát đi qua Mót Phét này.
 
 2
 00:00:02,600 --> 00:00:04,000
-To the hospital right now.
+Rồi vào IC sạc luôn.
 </TRANSLATE_TEXT>
 
 ---
