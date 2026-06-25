@@ -24,6 +24,12 @@ class Gemini(BaseTrans):
         self.prompt_style = params.get("gemini_prompt_style", 'default')
         self.prompt = tools.get_prompt(ainame='gemini',aisendsrt=self.aisendsrt, style=self.prompt_style).replace('{lang}', self.target_language_name)
         self.api_keys = params.get('gemini_key', '').strip().split(',')
+        # Gemini has limited output token budget (~8K for Flash).
+        # Processing too many blocks at once causes it to stop mid-response.
+        # Force small batch size: 5 blocks max per API call.
+        if self.aisendsrt and self.trans_thread > 7:
+            self.trans_thread = 7
+            logger.info(f'[Gemini] Reduced trans_thread to {self.trans_thread} to prevent output truncation')
         # Vertex AI config
         self.auth_type = params.get('gemini_auth_type', 'api_key')
         if self.auth_type == 'vertex':
