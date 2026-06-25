@@ -30,6 +30,16 @@ class GEMINITTS(BaseTTS):
         self.convert_to_wav(data_item['filename'] + '.wav', data_item['filename'])
 
     def generate_tts_segment(self, text, voice, model, file_name):
+        # Convert rate string (e.g. "+20%") to float multiplier for Gemini API
+        # self.rate is inherited from BaseTTS as a string like "+20%" or "-10%"
+        rate_str = str(self.rate).replace('%', '').replace('+', '')
+        try:
+            speaking_rate = 1.0 + (float(rate_str) / 100.0)
+        except (ValueError, TypeError):
+            speaking_rate = 1.0
+        # Clamp to reasonable range
+        speaking_rate = max(0.25, min(4.0, speaking_rate))
+
         def convert_to_wav(audio_data: bytes, mime_type: str) -> bytes:
             parameters = parse_audio_mime_type(mime_type)
             bits_per_sample = parameters["bits_per_sample"]
@@ -133,7 +143,8 @@ class GEMINITTS(BaseTTS):
                     prebuilt_voice_config=types.PrebuiltVoiceConfig(
                         voice_name=voice
                     )
-                )
+                ),
+                speaking_rate=speaking_rate,
             ),
         )
         audio_chunks = []
