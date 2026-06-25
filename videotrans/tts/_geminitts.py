@@ -19,6 +19,25 @@ from videotrans.tts._base import BaseTTS
 @dataclass
 class GEMINITTS(BaseTTS):
 
+    def _get_rate_extra(self):
+        """Trả về extra args cho ffmpeg atempo filter dựa trên self.rate.
+        Gemini TTS không hỗ trợ tham số tốc độ trực tiếp, nên dùng hậu xử lý ffmpeg."""
+        speed = self.get_speed()
+        if speed == 1.0:
+            return None
+        # atempo giới hạn [0.5, 2.0], cần chia nhỏ nếu vượt quá
+        atempo_list = []
+        factor = speed
+        while factor > 2.0:
+            atempo_list.append("atempo=2.0")
+            factor /= 2.0
+        while factor < 0.5:
+            atempo_list.append("atempo=0.5")
+            factor /= 0.5
+        atempo_list.append(f"atempo={factor:.2f}")
+        filter_str = ",".join(atempo_list)
+        return ["-filter:a", filter_str]
+
     @retry(retry=retry_if_not_exception_type(NO_RETRY_EXCEPT), stop=(stop_after_attempt(settings.get('retry_nums'))), wait=wait_fixed(2), before=before_log(logger, logging.INFO), after=after_log(logger, logging.INFO))
     def _run(self, data_item: Union[Dict, List, None], idx: int = -1) -> Union[str, None]:
         role = data_item['role']
@@ -27,7 +46,9 @@ class GEMINITTS(BaseTTS):
                                       data_item['filename'] + '.wav')
         except Unauthorized as e:
             raise StopTask(e.message)
-        self.convert_to_wav(data_item['filename'] + '.wav', data_item['filename'])
+        # Áp dụng tốc độ đọc (rate) bằng ffmpeg atempo filter nếu rate != +0%
+        self.convert_to_wav(data_item['filename'] + '.wav', data_item['filename'],
+                            extra=self._get_rate_extra())
 
     def generate_tts_segment(self, text, voice, model, file_name):
         def convert_to_wav(audio_data: bytes, mime_type: str) -> bytes:
@@ -109,11 +130,25 @@ class GEMINITTS(BaseTTS):
                 vertexai=True,
                 project=params.get('gemini_vertex_project', ''),
                 location=params.get('gemini_vertex_location', 'us-central1'),
+                http_options=types.HttpOptions(
+                    client_args={'proxy': self.proxy_str, 'timeout': 120.0},
+                    async_client_args={'proxy': self.proxy_str, 'timeout': 120.0},
+                )
             )
         else:
             client = genai.Client(
                 api_key=params.get('gemini_key', ''),
+                http_options=types.HttpOptions(
+                    client_args={'proxy': self.proxy_str, 'timeout': 120.0},
+                    async_client_args={'proxy': self.proxy_str, 'timeout': 120.0},
+                )
             )
+
+        # Gemini TTS có giới hạn độ dài text, cắt bớt nếu quá dài để tránh mất audio
+        max_tts_chars = 1500
+        if len(text) > max_tts_chars:
+            logger.warning(f'[Gemini TTS] Text too long ({len(text)} chars), truncating to {max_tts_chars}')
+            text = text[:max_tts_chars].rsplit(' ', 1)[0]  # cắt tại từ cuối cùng
 
         contents = [
             types.Content(
@@ -167,4 +202,4 @@ class GEMINITTS(BaseTTS):
                 audio_data = convert_to_wav(audio_data, mime_type or 'audio/L16;rate=24000')
             save_binary_file(file_name, audio_data)
         else:
-            raise Exception("Gemini TTS returned empty audio")
+            raise Exception(f"Gemini TTS returned empty audio for text: {text[:100]}...")
