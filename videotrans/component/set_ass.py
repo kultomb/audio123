@@ -228,21 +228,10 @@ class PreviewWidget(QGraphicsView):
                 self.items.append(shadow_item)
                 shadow_item.setZValue(-2)
 
-        # Transformations
-        transform = QTransform()
-        transform.scale(style['ScaleX'] / 100.0, style['ScaleY'] / 100.0)
-        transform.rotate(style['Angle'])
-
-        # Apply transform to main items
-        for item in self.items:
-            if shadow_item is None or item != shadow_item:
-                item.setTransform(transform)
-        if style['Shadow'] > 0:
-            shadow_item.setTransform(transform)
-
         # Position
         scene_rect = self.sceneRect()
-        # Use text bounding for alignment
+
+        # Calculate position BEFORE applying transform to get correct untransformed bounds
         text_bounding = fill_item.mapToScene(fill_item.boundingRect()).boundingRect()
         width = text_bounding.width()
         height = text_bounding.height()
@@ -265,6 +254,17 @@ class PreviewWidget(QGraphicsView):
             y = scene_rect.height() - height - margin_v
         else:  # Middle
             y = (scene_rect.height() - height) / 2
+
+        # Now apply transform to all items
+        transform = QTransform()
+        transform.scale(style['ScaleX'] / 100.0, style['ScaleY'] / 100.0)
+        transform.rotate(style['Angle'])
+
+        for item in self.items:
+            if shadow_item is None or item != shadow_item:
+                item.setTransform(transform)
+        if style['Shadow'] > 0:
+            shadow_item.setTransform(transform)
 
         # Set pos for main items
         fill_item.setPos(x, y)
