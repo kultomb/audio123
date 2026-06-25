@@ -34,7 +34,7 @@ class Gemini(BaseTrans):
             self.vertex_location = params.get('gemini_vertex_location', 'us-central1')
 
 
-    @retry(retry=retry_if_not_exception_type(NO_RETRY_EXCEPT), stop=(stop_after_attempt(settings.get('retry_nums'))), wait=wait_fixed(2), before=before_log(logger, logging.INFO),after=after_log(logger, logging.INFO))
+    @retry(retry=retry_if_not_exception_type(NO_RETRY_EXCEPT), stop=(stop_after_attempt(max(3, int(settings.get('retry_nums', 3))))), wait=wait_fixed(3), before=before_log(logger, logging.INFO),after=after_log(logger, logging.INFO))
     def _item_task(self, data: Union[List[str], str]) -> str:
         if self._exit(): return
         text = "\n".join([i.strip() for i in data]) if isinstance(data, list) else data
@@ -47,16 +47,16 @@ class Gemini(BaseTrans):
                     project=self.vertex_project,
                     location=self.vertex_location,
                     http_options=types.HttpOptions(
-                        client_args={'proxy': self.proxy_str},
-                        async_client_args={'proxy': self.proxy_str},
+                        client_args={'proxy': self.proxy_str, 'timeout': 120.0},
+                        async_client_args={'proxy': self.proxy_str, 'timeout': 120.0},
                     )
                 )
             else:
                 client = genai.Client(
                     api_key=api_key,
                     http_options = types.HttpOptions(
-                        client_args={'proxy': self.proxy_str},
-                        async_client_args={'proxy': self.proxy_str},
+                        client_args={'proxy': self.proxy_str, 'timeout': 120.0},
+                        async_client_args={'proxy': self.proxy_str, 'timeout': 120.0},
                     )
 
                 )
@@ -118,13 +118,20 @@ class Gemini(BaseTrans):
                      
             logger.debug(f'{result=}')
             if not result:
-                logger.warning(f'[gemini]请求失败')
+                logger.warning(f'[gemini]请求失败 - empty response')
                 raise TranslateSrtError(f"[Gemini]result is empty")
                 
-            match = re.search(r'<TRANSLATE_TEXT>(.*?)(?:</TRANSLATE_TEXT>|$)',
-                              re.sub(r'<think>(.*?)</think>', '', result, flags=re.I | re.S), re.S | re.I)
+            # Strip thinking tags
+            cleaned = re.sub(r'<think>.*?</think>', '', result, flags=re.I | re.S)
+            match = re.search(r'<TRANSLATE_TEXT>(.*?)(?:</TRANSLATE_TEXT>|$)', cleaned, re.S | re.I)
             if match:
                 return match.group(1)
+            # Fallback: if result looks like plain SRT (starts with number),
+            # return it directly instead of failing
+            if re.search(r'^\d+\s*$', cleaned.strip(), re.M):
+                logger.warning('[gemini] No TRANSLATE_TEXT tag found, using raw output as SRT')
+                return cleaned.strip()
+            logger.error(f'[gemini] No valid SRT found in response. Raw result (first 500 chars): {result[:500]}')
             raise TranslateSrtError(f"Gemini result is emtpy")
         except httpx.ConnectTimeout as e:
             raise StopTask(f' {tr("Unable to connect to remote API","Gemini AI")}\n{e}') from e
