@@ -627,13 +627,13 @@ class ASSStyleDialog(QDialog):
             self.margin_r_spin.setValue(style.get('MarginR', 10))
             self.margin_v_spin.setValue(style.get('MarginV', 10))
 
-            # Glassmorphism
-            self.text_opacity_slider.setValue(int(style.get('TextOpacity', 1.0) * 100))
-            self.bottom_text_opacity_slider.setValue(int(style.get('Bottom_TextOpacity', 1.0) * 100))
+            # Glass box
             self.back_opacity_slider.setValue(int(style.get('BackOpacity', 0.35) * 100))
             self.bottom_back_opacity_slider.setValue(int(style.get('Bottom_BackOpacity', 0.35) * 100))
             self.back_padding_spin.setValue(style.get('BackPadding', 8))
             self.bottom_back_padding_spin.setValue(style.get('Bottom_BackPadding', 8))
+            self.back_blur_spin.setValue(style.get('BackBlur', 6))
+            self.bottom_back_blur_spin.setValue(style.get('Bottom_BackBlur', 6))
         finally:
             self.blockSignals(False)
 
@@ -688,23 +688,13 @@ class ASSStyleDialog(QDialog):
             self.margin_r_spin.setValue(style['MarginR'])
             self.margin_v_spin.setValue(style['MarginV'])
 
-            # Glassmorphism
-            self.text_opacity_slider.setValue(int(style.get('TextOpacity', 1.0) * 100))
-            self.bottom_text_opacity_slider.setValue(int(style.get('Bottom_TextOpacity', 1.0) * 100))
+            # Glass box
             self.back_opacity_slider.setValue(int(style.get('BackOpacity', 0.35) * 100))
             self.bottom_back_opacity_slider.setValue(int(style.get('Bottom_BackOpacity', 0.35) * 100))
             self.back_padding_spin.setValue(style.get('BackPadding', 8))
             self.bottom_back_padding_spin.setValue(style.get('Bottom_BackPadding', 8))
             self.back_blur_spin.setValue(style.get('BackBlur', 6))
             self.bottom_back_blur_spin.setValue(style.get('Bottom_BackBlur', 6))
-            self.use_glow_check.setChecked(bool(style.get('UseGlow', False)))
-            self.bottom_use_glow_check.setChecked(bool(style.get('Bottom_UseGlow', False)))
-            self.glow_size_spin.setValue(style.get('GlowSize', 2.0))
-            self.bottom_glow_size_spin.setValue(style.get('Bottom_GlowSize', 2.0))
-            self.glow_color_picker.color = ColorPicker.parse_color(style.get('GlowColor', '&H80000000&'))
-            self.glow_color_picker.update_swatch()
-            self.bottom_glow_color_picker.color = ColorPicker.parse_color(style.get('Bottom_GlowColor', '&H80000000&'))
-            self.bottom_glow_color_picker.update_swatch()
         finally:
             self.blockSignals(False)
         
@@ -749,22 +739,14 @@ class ASSStyleDialog(QDialog):
             'MarginR': self.margin_r_spin.value(),
             'MarginV': self.margin_v_spin.value(),
             'Encoding': 1,
-            # --- Glassmorphism ---
-            'TextOpacity': self.text_opacity_slider.value() / 100.0,
+            # Glass box
             'BackOpacity': self.back_opacity_slider.value() / 100.0,
             'BackPadding': self.back_padding_spin.value(),
             'BackBlur': self.back_blur_spin.value(),
-            'UseGlow': self.use_glow_check.isChecked(),
-            'GlowSize': self.glow_size_spin.value(),
-            'GlowColor': self.glow_color_picker.to_ass_color(),
-            # --- Bottom ---
-            'Bottom_TextOpacity': self.bottom_text_opacity_slider.value() / 100.0,
+            # Bottom
             'Bottom_BackOpacity': self.bottom_back_opacity_slider.value() / 100.0,
             'Bottom_BackPadding': self.bottom_back_padding_spin.value(),
             'Bottom_BackBlur': self.bottom_back_blur_spin.value(),
-            'Bottom_UseGlow': self.bottom_use_glow_check.isChecked(),
-            'Bottom_GlowSize': self.bottom_glow_size_spin.value(),
-            'Bottom_GlowColor': self.bottom_glow_color_picker.to_ass_color(),
         }
         return style
 
