@@ -311,14 +311,58 @@ def set_ass_font(srtfile: str) -> str:
         return ass_file_path
 
     # ---------- 3. 构建两个 Style 行：Default（主样式）和 Bottom（副样式）----------
-    # 主样式属性（保持原有逻辑）
+    # Helper: apply TextOpacity to ASS PrimaryColour using \alpha override
+    def _apply_text_opacity(color_str, opacity):
+        """Nếu opacity < 1.0, bọc màu với \alpha&HXX& - dùng cho Dialogue inline"""
+        if opacity >= 1.0 or not color_str:
+            return color_str
+        alpha_hex = hex(int((1.0 - opacity) * 255))[2:].upper().zfill(2)
+        return f"{{\\alpha&H{alpha_hex}&}}{color_str}{{\\alpha&H00&}}"
+
+    # Helper: apply BackOpacity to OutlineColour (dùng làm màu nền hộp cho BorderStyle=4)
+    def _opacity_color(color_str, opacity):
+        """Trả về màu ASS với alpha đã nhân opacity vào kênh A"""
+        if opacity >= 1.0 or not color_str or not color_str.startswith('&H'):
+            return color_str
+        hex_str = color_str[2:-1].upper()
+        if len(hex_str) == 6:
+            # Thêm kênh alpha
+            a = int((1.0 - opacity) * 255)
+            return f'&H{a:02X}{hex_str}&'
+        elif len(hex_str) == 8:
+            orig_a = int(hex_str[0:2], 16)
+            new_a = int(orig_a * opacity)
+            return f'&H{new_a:02X}{hex_str[2:]}&'
+        return color_str
+
+    border_style_num = style.get('BorderStyle', 1)
+    text_opacity = style.get('TextOpacity', 1.0)
+    back_opacity = style.get('BackOpacity', 0.35)
+    use_glow = style.get('UseGlow', False)
+    glow_size = style.get('GlowSize', 2.0)
+    glow_color_ass = style.get('GlowColor', '&H80000000&')
+
+    # Nếu BorderStyle=4 (glass box), OutlineColour trở thành màu nền hộp (có alpha)
+    raw_outline_colour = style.get('OutlineColour', '&H00000000&')
+    if border_style_num == 4:
+        outline_colour_for_style = _opacity_color(raw_outline_colour, back_opacity)
+        # Outline vẽ riêng bằng glow color
+        outline_width_for_style = glow_size if use_glow else style.get('Outline', 1)
+    else:
+        outline_colour_for_style = raw_outline_colour
+        outline_width_for_style = style.get('Outline', 1)
+
+    # PrimaryColour với TextOpacity (dùng inline tag khi opacity < 1)
+    raw_primary_colour = style.get('PrimaryColour', '&H00FFFFFF&')
+
+    # 主样式属性
     default_style = (
         f"Style: {style.get('Name', 'Default')},"
         f"{style.get('Fontname', 'Arial')},"
         f"{style.get('Fontsize', 16)},"
-        f"{style.get('PrimaryColour', '&H00FFFFFF&')},"
+        f"{raw_primary_colour},"
         f"{style.get('SecondaryColour', '&H00FFFFFF&')},"
-        f"{style.get('OutlineColour', '&H00000000&')},"
+        f"{outline_colour_for_style},"
         f"{style.get('BackColour', '&H00000000&')},"
         f"{style.get('Bold', 0)},"
         f"{style.get('Italic', 0)},"
@@ -328,8 +372,8 @@ def set_ass_font(srtfile: str) -> str:
         f"{style.get('ScaleY', 100)},"
         f"{style.get('Spacing', 0)},"
         f"{style.get('Angle', 0)},"
-        f"{style.get('BorderStyle', 1)},"
-        f"{style.get('Outline', 1)},"
+        f"{border_style_num},"
+        f"{outline_width_for_style},"
         f"{style.get('Shadow', 0)},"
         f"{style.get('Alignment', 2)},"
         f"{style.get('MarginL', 10)},"
@@ -339,18 +383,27 @@ def set_ass_font(srtfile: str) -> str:
     )
 
     # 副样式：继承主样式，但 Fontsize 和 PrimaryColour 使用底部专用值
-    bottom_fontsize = style.get('Bottom_Fontsize', 14)  # 默认 14
-    bottom_color = style.get('Bottom_PrimaryColour', '&H0000FFFF&')  # 默认黄色
-
-    bottom_bold = style.get('Bottom_Bold', 0)  # 粗体
-    bottom_italic = style.get('Bottom_Italic', 0)  # 是否斜体
-
+    bottom_fontsize = style.get('Bottom_Fontsize', 14)
+    bottom_color = style.get('Bottom_PrimaryColour', '&H0000FFFF&')
+    bottom_bold = style.get('Bottom_Bold', 0)
+    bottom_italic = style.get('Bottom_Italic', 0)
     bottom_secondarycolour = style.get('Bottom_SecondaryColour', '&H00FFFFFF&')
-    bottom_outlinecolour = style.get('Bottom_OutlineColour', '&H00000000&')
+    bottom_outlinecolour_raw = style.get('Bottom_OutlineColour', '&H00000000&')
     bottom_backcolour = style.get('Bottom_BackColour', '&H00000000&')
+    bottom_back_opacity = style.get('Bottom_BackOpacity', 0.35)
+    bottom_use_glow = style.get('Bottom_UseGlow', False)
+    bottom_glow_size = style.get('Bottom_GlowSize', 2.0)
+    bottom_glow_color_ass = style.get('Bottom_GlowColor', '&H80000000&')
+
+    if border_style_num == 4:
+        bottom_outlinecolour = _opacity_color(bottom_outlinecolour_raw, bottom_back_opacity)
+        bottom_outline_width = bottom_glow_size if bottom_use_glow else style.get('Outline', 1)
+    else:
+        bottom_outlinecolour = bottom_outlinecolour_raw
+        bottom_outline_width = style.get('Outline', 1)
 
     bottom_style = (
-        f"Style: Bottom,"  # 固定名称 "Bottom"
+        f"Style: Bottom,"
         f"{style.get('Fontname', 'Arial')},"
         f"{bottom_fontsize},"
         f"{bottom_color},"
@@ -365,8 +418,8 @@ def set_ass_font(srtfile: str) -> str:
         f"{style.get('ScaleY', 100)},"
         f"{style.get('Spacing', 0)},"
         f"{style.get('Angle', 0)},"
-        f"{style.get('BorderStyle', 1)},"
-        f"{style.get('Outline', 1)},"
+        f"{border_style_num},"
+        f"{bottom_outline_width},"
         f"{style.get('Shadow', 0)},"
         f"{style.get('Alignment', 2)},"
         f"{style.get('MarginL', 10)},"
@@ -413,6 +466,10 @@ def set_ass_font(srtfile: str) -> str:
     inside_events = False
     dialogue_pattern = re.compile(r'^(Dialogue:.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,)(.*)$')
 
+    # BackBlur: nếu > 0 và border_style==4, thêm \be tag để làm mềm viền nền hộp (giả lập bo cạnh)
+    back_blur = style.get('BackBlur', 0)
+    bottom_back_blur = style.get('Bottom_BackBlur', 0)
+
     for line in lines:
         # 检测是否进入 [Events] 区域
         if line.strip().startswith('[Events]'):
@@ -425,25 +482,32 @@ def set_ass_font(srtfile: str) -> str:
             if match:
                 prefix = match.group(1)  # 前面固定字段
                 text = match.group(2)  # 字幕文本内容
+
+                # Thêm \be tag cho nền hộp mờ (chỉ có hiệu ứng với BorderStyle=4)
+                blur_tag = ''
+                if border_style_num == 4 and back_blur > 0:
+                    blur_tag = f'{{\\be{back_blur}}}'
+                # Bottom blur tag sẽ được áp trong phần Bottom nếu có ###
+                bottom_blur_tag = ''
+                if border_style_num == 4 and bottom_back_blur > 0:
+                    bottom_blur_tag = f'{{\\be{bottom_back_blur}}}'
+
                 # 检查是否包含 '###'
                 if '###' in text:
-                    # 分割成两部分：左（主语言）和右（副语言）
-                    # 注意：文本中可能含有 \N 换行符，但 ### 通常不会跨行
                     parts = text.split('###', 1)
                     left = parts[0]
                     right = parts[1] if len(parts) > 1 else ''
-                    # 构建新文本：左部分 + 副样式开关 + 右部分 + 恢复主样式
-                    # 注意：如果左部分为空，直接以副样式开头；如果右部分为空，则不添加样式（但理论上 ### 后应有内容）
                     new_text = ''
                     if left:
-                        new_text += left
+                        new_text += blur_tag + left
                     if right:
-                        # 使用 {\rBottom} 切换到副样式，结束后用 {\r} 恢复为 Default
-                        new_text += f'{{\\rBottom}}{right}{{\\r}}'
-                    # 替换原行
+                        new_text += f'{{\\rBottom}}{bottom_blur_tag}{right}{{\\r}}'
                     line = f'{prefix}{new_text}\n'
+                else:
+                    # Không có ###: thêm blur tag vào đầu dòng
+                    if blur_tag:
+                        line = f'{prefix}{blur_tag}{text}\n'
             else:
-                # 非标准格式，保留原样
                 pass
         processed_lines.append(line)
 

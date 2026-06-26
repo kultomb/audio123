@@ -129,8 +129,8 @@ Block 1: "Đầu tiên là mình sẽ kiểm tra"
 Block 2: "nguồn điện trước đã."
 
 ✅ CORRECT:
-Block 1: "Đầu tiên, mình kiểm tra nguồn."
-Block 2: "Kiểm tra điện trước đã."
+Block 1: "Đầu tiên, mình sẽ kiểm tra."
+Block 2: "Nguồn điện trước đã."
 
 ❌ WRONG (ellipsis bridging):
 Block 1: "Đầu tiên mình kiểm tra..."

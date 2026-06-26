@@ -48,7 +48,14 @@ DEFAULT_STYLE = {
     'MarginL': 10,
     'MarginR': 10,
     'MarginV': 10,
-    'Encoding': 1
+    'Encoding': 1,
+    # Glass box: nền mờ + bo cạnh
+    'BackOpacity': 0.35,
+    'BackPadding': 8,
+    'BackBlur': 6,
+    'Bottom_BackOpacity': 0.35,
+    'Bottom_BackPadding': 8,
+    'Bottom_BackBlur': 6,
 }
 
 class ColorPicker(QWidget):
@@ -156,28 +163,36 @@ class PreviewWidget(QGraphicsView):
         else:
             back_color = style['BackColour']
 
+        # --- Glass box config ---
+        back_opacity = style.get('BackOpacity', 0.35)
+        back_padding = style.get('BackPadding', 8)
+        back_blur = style.get('BackBlur', 6)
+        border_style = style.get('BorderStyle', 1)
+
         path = QPainterPath()
         path.addText(0, 0, font, text)
-
         text_rect = path.boundingRect()
 
-        effective_outline = style['Outline'] if style['BorderStyle'] == 1 else 0
-
+        effective_outline = style['Outline'] if border_style in [1, 4] else 0
         shadow_item = None
-
         back_rect = None
-
         outline_item = None
 
-        fill_item = QGraphicsPathItem(path)
-        fill_item.setPen(Qt.NoPen)
-        fill_item.setBrush(QBrush(primary_color))
-        self.scene.addItem(fill_item)
-        self.items.append(fill_item)
+        # --- Nền hộp trong suốt (BorderStyle=4) ---
+        if border_style == 4:
+            box_color = QColor(outline_color)
+            box_color.setAlpha(int(box_color.alpha() * back_opacity))
+            padding = back_padding
+            box_rect = text_rect.adjusted(-padding, -padding, padding, padding)
+            back_rect = QGraphicsRectItem(box_rect)
+            back_rect.setBrush(QBrush(box_color))
+            back_rect.setPen(Qt.NoPen)
+            self.scene.addItem(back_rect)
+            self.items.append(back_rect)
+            back_rect.setZValue(-2)
 
-        main_item = fill_item
-
-        if effective_outline > 0:
+        # --- Viền chữ (BorderStyle=1) ---
+        if effective_outline > 0 and border_style != 4:
             stroker = QPainterPathStroker()
             stroker.setWidth(effective_outline * 2)
             stroker.setCapStyle(Qt.RoundCap)
@@ -189,22 +204,29 @@ class PreviewWidget(QGraphicsView):
             self.scene.addItem(outline_item)
             self.items.append(outline_item)
             outline_item.setZValue(-1)
-            main_item = outline_item
 
-        if style['BorderStyle'] == 3:
+        # --- Nền đặc (BorderStyle=3) ---
+        if border_style == 3:
             box_padding = style['Outline']
             box_rect = text_rect.adjusted(-box_padding, -box_padding, box_padding, box_padding)
             back_rect = QGraphicsRectItem(box_rect)
-            back_rect.setBrush(QBrush(outline_color))  # BorderStyle 3 使用 OutlineColour 作为背景框颜色
+            back_rect.setBrush(QBrush(outline_color))
             back_rect.setPen(Qt.NoPen)
             self.scene.addItem(back_rect)
             self.items.append(back_rect)
             back_rect.setZValue(-1)
-            fill_item.setZValue(1)
+
+        # --- Chữ ---
+        fill_item = QGraphicsPathItem(path)
+        fill_item.setPen(Qt.NoPen)
+        fill_item.setBrush(QBrush(primary_color))
+        self.scene.addItem(fill_item)
+        self.items.append(fill_item)
+        fill_item.setZValue(1)
 
         # Shadow
         if style['Shadow'] > 0:
-            if style['BorderStyle'] == 1:
+            if border_style in [1, 4]:
                 shadow_path = QPainterPath()
                 shadow_path.addText(0, 0, font, text)
                 stroker = QPainterPathStroker()
@@ -217,8 +239,8 @@ class PreviewWidget(QGraphicsView):
                 shadow_item.setBrush(QBrush(back_color))
                 self.scene.addItem(shadow_item)
                 self.items.append(shadow_item)
-                shadow_item.setZValue(-2)
-            elif style['BorderStyle'] == 3:
+                shadow_item.setZValue(-3)
+            elif border_style == 3:
                 box_padding = style['Outline']
                 shadow_rect = text_rect.adjusted(-box_padding, -box_padding, box_padding, box_padding)
                 shadow_item = QGraphicsRectItem(shadow_rect)
@@ -226,12 +248,10 @@ class PreviewWidget(QGraphicsView):
                 shadow_item.setPen(Qt.NoPen)
                 self.scene.addItem(shadow_item)
                 self.items.append(shadow_item)
-                shadow_item.setZValue(-2)
+                shadow_item.setZValue(-3)
 
         # Position
         scene_rect = self.sceneRect()
-
-        # Calculate position BEFORE applying transform to get correct untransformed bounds
         text_bounding = fill_item.mapToScene(fill_item.boundingRect()).boundingRect()
         width = text_bounding.width()
         height = text_bounding.height()
@@ -241,21 +261,20 @@ class PreviewWidget(QGraphicsView):
         margin_r = style['MarginR']
         margin_v = style['MarginV']
 
-        if align in [1, 4, 7]:  # Left
+        if align in [1, 4, 7]:
             x = margin_l
-        elif align in [3, 6, 9]:  # Right
+        elif align in [3, 6, 9]:
             x = scene_rect.width() - width - margin_r
-        else:  # Center
+        else:
             x = (scene_rect.width() - width) / 2
 
-        if align in [7, 8, 9]:  # Top
+        if align in [7, 8, 9]:
             y = margin_v
-        elif align in [1, 2, 3]:  # Bottom
+        elif align in [1, 2, 3]:
             y = scene_rect.height() - height - margin_v
-        else:  # Middle
+        else:
             y = (scene_rect.height() - height) / 2
 
-        # Now apply transform to all items
         transform = QTransform()
         transform.scale(style['ScaleX'] / 100.0, style['ScaleY'] / 100.0)
         transform.rotate(style['Angle'])
@@ -263,16 +282,15 @@ class PreviewWidget(QGraphicsView):
         for item in self.items:
             if shadow_item is None or item != shadow_item:
                 item.setTransform(transform)
-        if style['Shadow'] > 0:
+        if style['Shadow'] > 0 and shadow_item:
             shadow_item.setTransform(transform)
 
-        # Set pos for main items
         fill_item.setPos(x, y)
         if outline_item:
             outline_item.setPos(x, y)
         if back_rect:
             back_rect.setPos(x, y)
-        if style['Shadow'] > 0:
+        if style['Shadow'] > 0 and shadow_item:
             shadow_item.setPos(x + style['Shadow'], y + style['Shadow'])
 
 class ASSStyleDialog(QDialog):
@@ -393,11 +411,11 @@ class ASSStyleDialog(QDialog):
 
         # BorderStyle
         self.border_style_combo = QComboBox()
-        self.border_style_combo.addItems([tr("border_style_outline"), tr("border_style_opaque")])
+        self.border_style_combo.addItems([tr("border_style_outline"), tr("border_style_opaque"), tr("border_style_glass")])
         self.border_style_combo.currentIndexChanged.connect(self.update_preview)
         self.form_layout.addRow(tr("border_style"), self.border_style_combo)
 
-        # Outline (border size)
+        # Outline (border size) / Glow size
         self.outline_spin = QDoubleSpinBox()
         self.outline_spin.setSingleStep(0.1)
         self.outline_spin.setRange(0.0, 10.0)
@@ -458,6 +476,55 @@ class ASSStyleDialog(QDialog):
         self.margin_v_spin.setRange(0, 1000)
         self.margin_v_spin.valueChanged.connect(self.update_preview)
         self.form_layout.addRow(tr("margin_vertical"), self.margin_v_spin)
+
+        # ====== Glass Box / Nền mờ + bo cạnh ======
+        self.glass_group = QGroupBox(tr("glass_effect"))
+        glass_layout = QFormLayout()
+
+        # Back (nền hộp) Opacity slider (0-100%)
+        self.back_opacity_slider = QSpinBox()
+        self.back_opacity_slider.setRange(0, 100)
+        self.back_opacity_slider.setValue(35)
+        self.back_opacity_slider.setSuffix("%")
+        self.back_opacity_slider.valueChanged.connect(self.update_preview)
+        glass_layout.addRow(tr("back_opacity"), self.back_opacity_slider)
+
+        self.bottom_back_opacity_slider = QSpinBox()
+        self.bottom_back_opacity_slider.setRange(0, 100)
+        self.bottom_back_opacity_slider.setValue(35)
+        self.bottom_back_opacity_slider.setSuffix("%")
+        self.bottom_back_opacity_slider.valueChanged.connect(self.update_preview)
+        glass_layout.addRow(tr("bottom_back_opacity"), self.bottom_back_opacity_slider)
+
+        # Back padding
+        self.back_padding_spin = QSpinBox()
+        self.back_padding_spin.setRange(0, 50)
+        self.back_padding_spin.setValue(8)
+        self.back_padding_spin.valueChanged.connect(self.update_preview)
+        glass_layout.addRow(tr("back_padding"), self.back_padding_spin)
+
+        self.bottom_back_padding_spin = QSpinBox()
+        self.bottom_back_padding_spin.setRange(0, 50)
+        self.bottom_back_padding_spin.setValue(8)
+        self.bottom_back_padding_spin.valueChanged.connect(self.update_preview)
+        glass_layout.addRow(tr("bottom_back_padding"), self.bottom_back_padding_spin)
+
+        # Back blur (bo cạnh nền - dùng \be tag trong ASS)
+        self.back_blur_spin = QSpinBox()
+        self.back_blur_spin.setRange(0, 50)
+        self.back_blur_spin.setValue(6)
+        self.back_blur_spin.setToolTip(tr("back_blur_tip"))
+        self.back_blur_spin.valueChanged.connect(self.update_preview)
+        glass_layout.addRow(tr("back_blur"), self.back_blur_spin)
+
+        self.bottom_back_blur_spin = QSpinBox()
+        self.bottom_back_blur_spin.setRange(0, 50)
+        self.bottom_back_blur_spin.setValue(6)
+        self.bottom_back_blur_spin.valueChanged.connect(self.update_preview)
+        glass_layout.addRow(tr("bottom_back_blur"), self.bottom_back_blur_spin)
+
+        self.glass_group.setLayout(glass_layout)
+        self.form_layout.addRow(self.glass_group)
 
         self.form_group.setLayout(self.form_layout)
         self.scroll_area.setWidget(self.form_group)
@@ -552,13 +619,21 @@ class ASSStyleDialog(QDialog):
             self.scale_y_spin.setValue(style.get('ScaleY', 100))
             self.spacing_spin.setValue(style.get('Spacing', 0))
             self.angle_spin.setValue(style.get('Angle', 0))
-            self.border_style_combo.setCurrentIndex(0 if style.get('BorderStyle', 1) == 1 else 1)
+            self.border_style_combo.setCurrentIndex(0 if style.get('BorderStyle', 1) == 1 else (1 if style.get('BorderStyle', 1) == 3 else 2))
             self.outline_spin.setValue(style.get('Outline', 1))
             self.shadow_spin.setValue(style.get('Shadow', 0))
             self.set_alignment(style.get('Alignment', 2))
             self.margin_l_spin.setValue(style.get('MarginL', 10))
             self.margin_r_spin.setValue(style.get('MarginR', 10))
             self.margin_v_spin.setValue(style.get('MarginV', 10))
+
+            # Glassmorphism
+            self.text_opacity_slider.setValue(int(style.get('TextOpacity', 1.0) * 100))
+            self.bottom_text_opacity_slider.setValue(int(style.get('Bottom_TextOpacity', 1.0) * 100))
+            self.back_opacity_slider.setValue(int(style.get('BackOpacity', 0.35) * 100))
+            self.bottom_back_opacity_slider.setValue(int(style.get('Bottom_BackOpacity', 0.35) * 100))
+            self.back_padding_spin.setValue(style.get('BackPadding', 8))
+            self.bottom_back_padding_spin.setValue(style.get('Bottom_BackPadding', 8))
         finally:
             self.blockSignals(False)
 
@@ -605,13 +680,31 @@ class ASSStyleDialog(QDialog):
             self.scale_y_spin.setValue(style['ScaleY'])
             self.spacing_spin.setValue(style['Spacing'])
             self.angle_spin.setValue(style['Angle'])
-            self.border_style_combo.setCurrentIndex(0 if style['BorderStyle'] == 1 else 1)
+            self.border_style_combo.setCurrentIndex(0 if style['BorderStyle'] == 1 else (1 if style['BorderStyle'] == 3 else 2))
             self.outline_spin.setValue(style['Outline'])
             self.shadow_spin.setValue(style['Shadow'])
             self.set_alignment(style['Alignment'])
             self.margin_l_spin.setValue(style['MarginL'])
             self.margin_r_spin.setValue(style['MarginR'])
             self.margin_v_spin.setValue(style['MarginV'])
+
+            # Glassmorphism
+            self.text_opacity_slider.setValue(int(style.get('TextOpacity', 1.0) * 100))
+            self.bottom_text_opacity_slider.setValue(int(style.get('Bottom_TextOpacity', 1.0) * 100))
+            self.back_opacity_slider.setValue(int(style.get('BackOpacity', 0.35) * 100))
+            self.bottom_back_opacity_slider.setValue(int(style.get('Bottom_BackOpacity', 0.35) * 100))
+            self.back_padding_spin.setValue(style.get('BackPadding', 8))
+            self.bottom_back_padding_spin.setValue(style.get('Bottom_BackPadding', 8))
+            self.back_blur_spin.setValue(style.get('BackBlur', 6))
+            self.bottom_back_blur_spin.setValue(style.get('Bottom_BackBlur', 6))
+            self.use_glow_check.setChecked(bool(style.get('UseGlow', False)))
+            self.bottom_use_glow_check.setChecked(bool(style.get('Bottom_UseGlow', False)))
+            self.glow_size_spin.setValue(style.get('GlowSize', 2.0))
+            self.bottom_glow_size_spin.setValue(style.get('Bottom_GlowSize', 2.0))
+            self.glow_color_picker.color = ColorPicker.parse_color(style.get('GlowColor', '&H80000000&'))
+            self.glow_color_picker.update_swatch()
+            self.bottom_glow_color_picker.color = ColorPicker.parse_color(style.get('Bottom_GlowColor', '&H80000000&'))
+            self.bottom_glow_color_picker.update_swatch()
         finally:
             self.blockSignals(False)
         
@@ -648,14 +741,30 @@ class ASSStyleDialog(QDialog):
             'ScaleY': self.scale_y_spin.value(),
             'Spacing': self.spacing_spin.value(),
             'Angle': self.angle_spin.value(),
-            'BorderStyle': 1 if self.border_style_combo.currentIndex() == 0 else 3,
+            'BorderStyle': 1 if self.border_style_combo.currentIndex() == 0 else (3 if self.border_style_combo.currentIndex() == 1 else 4),
             'Outline': self.outline_spin.value(),
             'Shadow': self.shadow_spin.value(),
             'Alignment': self.get_alignment(),
             'MarginL': self.margin_l_spin.value(),
             'MarginR': self.margin_r_spin.value(),
             'MarginV': self.margin_v_spin.value(),
-            'Encoding': 1
+            'Encoding': 1,
+            # --- Glassmorphism ---
+            'TextOpacity': self.text_opacity_slider.value() / 100.0,
+            'BackOpacity': self.back_opacity_slider.value() / 100.0,
+            'BackPadding': self.back_padding_spin.value(),
+            'BackBlur': self.back_blur_spin.value(),
+            'UseGlow': self.use_glow_check.isChecked(),
+            'GlowSize': self.glow_size_spin.value(),
+            'GlowColor': self.glow_color_picker.to_ass_color(),
+            # --- Bottom ---
+            'Bottom_TextOpacity': self.bottom_text_opacity_slider.value() / 100.0,
+            'Bottom_BackOpacity': self.bottom_back_opacity_slider.value() / 100.0,
+            'Bottom_BackPadding': self.bottom_back_padding_spin.value(),
+            'Bottom_BackBlur': self.bottom_back_blur_spin.value(),
+            'Bottom_UseGlow': self.bottom_use_glow_check.isChecked(),
+            'Bottom_GlowSize': self.bottom_glow_size_spin.value(),
+            'Bottom_GlowColor': self.bottom_glow_color_picker.to_ass_color(),
         }
         return style
 
