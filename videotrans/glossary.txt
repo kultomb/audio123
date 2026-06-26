@@ -2,6 +2,7 @@ Line goes directly to CPU = đường vào CPU
 MOSFET = MOSFET
 VBAT = VBAT
 GR = trở kháng
+Số bảo mật = imei
 Fluctuating DC reading = dòng DC dao động
 CPU reballing process = làm chân CPU
 IC reballing stencil = vỉ đổ chân
