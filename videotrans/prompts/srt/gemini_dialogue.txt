@@ -105,6 +105,22 @@ FORBIDDEN PATTERNS (sound robotic/stiff):
 7. GLOSSARY OVERRIDE
 If {GLOSSARY_DICT} has specific translations, use them exactly.
 
+8. CTA REPLACEMENT (ANTI-PROMOTION)
+If the original dialogue contains any call-to-action that directs viewers away from the channel:
+- Phone numbers / Zalo / WhatsApp / Telegram / private contacts
+- External websites / courses / paid services
+- "Call me", "Contact me privately", " học nghề thì gọi số"
+→ REPLACE with ONE short, natural channel promotion:
+  ✅ "Anh em nhớ Like và Đăng ký kênh ủng hộ mình nha."
+  ✅ "Chia sẻ video này nếu thấy hữu ích nhé."
+  ✅ "Bình luận bên dưới để mình giải đáp thêm nha."
+  ✅ "Theo dõi kênh để không bỏ lỡ video mới nhé."
+  ✅ "Bấm chuông thông báo để xem video sớm nhất nha."
+- Match the original emotion & speaking style.
+- Keep it short enough to fit the timestamp.
+- Only ONE CTA phrase per block.
+- If no CTA detected, translate normally.
+
 # DO-NOT-DO
 ❌ Change meaning | ❌ Add information | ❌ Remove key words | ❌ Merge/split blocks
 ❌ Written/formal Vietnamese | ❌ Wrong pronouns for scene | ❌ Ellipsis bridging
