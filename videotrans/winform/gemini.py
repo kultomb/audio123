@@ -36,6 +36,9 @@ def openwin():
         ttsmodel = winobj.ttsmodel.currentText()
         params["gemini_ttsmodel"] = ttsmodel
 
+        tts_temperature = winobj.tts_temperature.text().strip()
+        params["gemini_tts_temperature"] = tts_temperature if tts_temperature else "0.7"
+
         params.save()
         winobj.test.setText(tr("Testing..."))
         task = TestSrtTrans(parent=winobj, translator_type=translator.GEMINI_INDEX)
@@ -67,7 +70,8 @@ def openwin():
         ttsmodel = winobj.ttsmodel.currentText()
         params["gemini_ttsmodel"] = ttsmodel
 
-
+        tts_temperature = winobj.tts_temperature.text().strip()
+        params["gemini_tts_temperature"] = tts_temperature if tts_temperature else "0.7"
 
         params.save()
         winobj.close()

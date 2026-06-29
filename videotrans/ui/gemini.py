@@ -205,6 +205,21 @@ class Ui_geminiform(object):
         h2ttsmodel.addWidget(self.ttsmodel)
         v1.addLayout(h2ttsmodel)
 
+        # === TTS Temperature ===
+        h_tts_temp = QtWidgets.QHBoxLayout()
+        self.label_tts_temperature = QtWidgets.QLabel()
+        self.label_tts_temperature.setMinimumSize(QtCore.QSize(0, 35))
+        self.label_tts_temperature.setObjectName("label_tts_temperature")
+        self.label_tts_temperature.setText(tr("TTS Temperature (0.0-2.0)"))
+        self.tts_temperature = QtWidgets.QLineEdit()
+        self.tts_temperature.setMinimumSize(QtCore.QSize(0, 35))
+        self.tts_temperature.setObjectName("tts_temperature")
+        self.tts_temperature.setPlaceholderText("0.7")
+        self.tts_temperature.setText("0.7")
+        h_tts_temp.addWidget(self.label_tts_temperature)
+        h_tts_temp.addWidget(self.tts_temperature)
+        v1.addLayout(h_tts_temp)
+
         h3 = QtWidgets.QHBoxLayout()
         self.set_gemini = QtWidgets.QPushButton()
         self.set_gemini.setMinimumSize(QtCore.QSize(0, 35))

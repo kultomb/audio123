@@ -668,6 +668,7 @@ class AppParams:
             "gemini_maxtoken": 16384,
             "gemini_ttsstyle": "",
             "gemini_ttsmodel": GEMINI_TTS_MODELS.split(',')[0],
+            "gemini_tts_temperature": "0.7",
             "gemini_auth_type": "api_key",
             "gemini_vertex_json": "",
             "gemini_vertex_project": "",

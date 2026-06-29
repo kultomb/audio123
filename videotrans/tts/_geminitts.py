@@ -165,8 +165,16 @@ class GEMINITTS(BaseTTS):
                 ],
             ),
         ]
+        # Lấy temperature từ params, mặc định 0.7 để giọng ổn định
+        try:
+            tts_temperature = float(params.get('gemini_tts_temperature', '0.7'))
+        except (ValueError, TypeError):
+            tts_temperature = 0.7
+        # Clamp về khoảng [0.0, 2.0]
+        tts_temperature = max(0.0, min(2.0, tts_temperature))
+
         generate_content_config = types.GenerateContentConfig(
-            temperature=1,
+            temperature=tts_temperature,
             response_modalities=[
                 "audio",
             ],
