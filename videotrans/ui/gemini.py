@@ -249,6 +249,10 @@ class Ui_geminiform(object):
         self.radio_api_key.toggled.connect(self.toggle_auth_widgets)
         self.radio_vertex.toggled.connect(self.toggle_auth_widgets)
         self.btn_browse_json.clicked.connect(self.browse_json)
+        # Connect Vertex AI signals
+        self.radio_api_key.toggled.connect(self.toggle_auth_widgets)
+        self.radio_vertex.toggled.connect(self.toggle_auth_widgets)
+        self.btn_browse_json.clicked.connect(self.browse_json)
 
 
     def toggle_auth_widgets(self):

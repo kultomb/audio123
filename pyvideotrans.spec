@@ -90,6 +90,9 @@ a = Analysis(
         'setuptools', 'distutils', 'pip',
         'IPython', 'jupyter', 'notebook',
         'matplotlib', 'wx',
+        # Quá nặng, không bundle — người dùng tự cài nếu cần GPU
+        'torch', 'torchaudio', 'torchvision',
+        'triton', 'nvidia', 'cuda',
     ],
     win_no_prefer_redirects=False,
     win_private_assemblies=False,
@@ -102,22 +105,29 @@ pyz = PYZ(a.pure, a.zipped_data, cipher=None)
 exe = EXE(
     pyz,
     a.scripts,
-    a.binaries,
-    a.zipfiles,
-    a.datas,
     [],
+    exclude_binaries=True,
     name='pyVideoTrans',
     debug=False,
     bootloader_ignore_signals=False,
-    strip=True,
-    upx=True,
-    upx_exclude=[],
-    runtime_tmpdir=None,
-    console=False,  # False = GUI app (no console window)
-    disable_windowed_traceback=True,
+    strip=False,
+    upx=False,
+    console=True,
+    disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
     icon=None,
+)
+
+coll = COLLECT(
+    exe,
+    a.binaries,
+    a.zipfiles,
+    a.datas,
+    strip=False,
+    upx=False,
+    upx_exclude=[],
+    name='pyVideoTrans',
 )
