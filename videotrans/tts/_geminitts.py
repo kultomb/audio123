@@ -186,8 +186,8 @@ class GEMINITTS(BaseTTS):
                 )
             ),
         )
-        # Retry loop: Gemini đôi khi từ chối tạo audio (safety filter) hoặc quota, thử lại tối đa 3 lần
-        max_retries = 3
+        # Retry loop: Gemini đôi khi từ chối tạo audio (safety filter) hoặc quota, thử lại tối đa 5 lần
+        max_retries = 5
         for attempt in range(1, max_retries + 1):
             # Rate limiter: đợi đến lượt trước mỗi lần gọi Gemini
             global _last_tts_time
@@ -219,8 +219,11 @@ class GEMINITTS(BaseTTS):
                         audio_chunks.append(inline_data.data)
             except errors.ClientError as e:
                 if '429' in str(e) or 'RESOURCE_EXHAUSTED' in str(e):
-                    wait = 5 * attempt  # 5s, 10s, 15s
+                    wait = 15 * attempt  # 15s, 30s, 45s, 60s, 75s
                     logger.warning(f'[Gemini TTS] Quota exceeded (attempt {attempt}/{max_retries}), waiting {wait}s...')
+                    # Reset rate limiter để lần retry sau cũng phải đợi đủ interval, tránh gọi dồn dập
+                    with _tts_lock:
+                        _last_tts_time = time.time() + wait
                     time.sleep(wait)
                     continue
                 raise  # lỗi khác, ném ra ngoài
@@ -235,6 +238,6 @@ class GEMINITTS(BaseTTS):
 
             logger.warning(f'[Gemini TTS] Attempt {attempt}/{max_retries}: no audio returned for text: {text[:100]}...')
             if attempt < max_retries:
-                time.sleep(1)  # đợi 1 giây trước khi thử lại
+                time.sleep(2)  # đợi 2 giây trước khi thử lại (tăng từ 1s)
 
         raise Exception(f"Gemini TTS returned empty audio after {max_retries} attempts for text: {text[:100]}...")
